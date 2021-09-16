@@ -28,7 +28,7 @@ class MyApp extends ConsumerWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      initialRoute: Home.routeName,
+      initialRoute: PairWords.routeName,
     );
   }
 }
@@ -60,11 +60,11 @@ class RouteGenerator {
               //   child: child,
               // );
             });
-      case RiverpodHive.routeName: // '/research'
+      case RiverpodHive.routeName: // '/riverpodHive'
         return MaterialPageRoute(builder: (context) => RiverpodHive());
-      case UserApiTest.routeName:
+      case UserApiTest.routeName: // '/userApiTest'
         return MaterialPageRoute(builder: (context) => UserApiTest());
-      case MoviesTitle.routeName:
+      case MoviesTitle.routeName: // '/moviesTitle'
         return MaterialPageRoute(builder: (context) => MoviesTitle());
       case MoviesTitleResult.routeName:
         return MaterialPageRoute(

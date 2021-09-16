@@ -22,7 +22,7 @@ class Home extends StatelessWidget {
           ListTile(
             title: Text('Riverpod state + Hive database'),
             onTap: () {
-              Navigator.pushNamed(context, '/research');
+              Navigator.pushNamed(context, '/riverpodHive');
             },
           ),
           ListTile(

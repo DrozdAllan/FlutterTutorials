@@ -20,7 +20,7 @@ class MoviesTitle extends StatelessWidget {
 
   Widget _presentationText() {
     return Text(
-        'Movies Title Api will perform a more complex api call, the Model Class will be generated with build_runner usin json_annotation and json_serializable https://blog.logrocket.com/networking-flutter-using-dio/');
+        'Movies Title Api will perform a more complex api call, the Model Class will be generated with build_runner usin json_annotation and json_serializable');
   }
 }
 
