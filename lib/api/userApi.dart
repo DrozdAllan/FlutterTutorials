@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:mynewapp/models/userModel.dart';
 
@@ -15,6 +17,9 @@ class UserApi {
     } on DioError catch (err) {
       print(err);
       throw ("err.response?.statusMessage ?? 'Something went wrong!'");
+    } on SocketException catch (err) {
+      print(err);
+      throw ('Please check your connection.');
     }
   }
 }

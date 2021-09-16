@@ -6,8 +6,8 @@ import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpodHive/riverpodHive.dart';
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
-import 'package:mynewapp/screens/weather/weather.dart';
-import 'package:mynewapp/screens/weather/weatherDisplay.dart';
+import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
+import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
 
 void main() => runApp(
       // For widgets to be able to read providers, we need to wrap the entire
@@ -64,11 +64,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => RiverpodHive());
       case UserApiTest.routeName:
         return MaterialPageRoute(builder: (context) => UserApiTest());
-      case Weather.routeName:
-        return MaterialPageRoute(builder: (context) => Weather());
-      case WeatherDisplay.routeName:
+      case MoviesTitle.routeName:
+        return MaterialPageRoute(builder: (context) => MoviesTitle());
+      case MoviesTitleResult.routeName:
         return MaterialPageRoute(
-            builder: (context) => WeatherDisplay(result: settings.arguments));
+            builder: (context) =>
+                MoviesTitleResult(result: settings.arguments));
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(

@@ -59,8 +59,14 @@ class _UserApiTestState extends State<UserApiTest> {
     return Column(
       children: [
         Text(
-          'UserApi is a simple api call with the package dio, it will later call my Movie Titles api https://blog.logrocket.com/networking-flutter-using-dio/ ',
+          'UserApi is a simple api call with the package dio : an Api Class send the request and deserialize the json through a Model Class. The flutter widget below is a FutureBuilder that waits for the async api call to return data to build the widget',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            Navigator.pushNamed(context, '/moviesTitle');
+          },
+          child: Text('Try Movies Title Api'),
         ),
       ],
     );

@@ -8,7 +8,7 @@ import 'package:mynewapp/provider/pairWordsProvider.dart';
 class RiverpodHive extends ConsumerWidget {
   const RiverpodHive({Key? key}) : super(key: key);
 
-  static const routeName = '/research';
+  static const routeName = '/riverpodHive';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

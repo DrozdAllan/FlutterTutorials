@@ -1,9 +1,9 @@
 class User {
-  User({
+  final Data data;
+
+  const User({
     required this.data,
   });
-
-  Data data;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         data: Data.fromJson(json["data"]),
@@ -15,19 +15,19 @@ class User {
 }
 
 class Data {
-  Data({
+  final int id;
+  final String email;
+  final String firstName;
+  final String lastName;
+  final String avatar;
+
+  const Data({
     required this.id,
     required this.email,
     required this.firstName,
     required this.lastName,
     required this.avatar,
   });
-
-  int id;
-  String email;
-  String firstName;
-  String lastName;
-  String avatar;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
