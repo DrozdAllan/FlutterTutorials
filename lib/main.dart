@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
+import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
-import 'package:mynewapp/screens/riverpodHive/riverpodHive.dart';
+import 'package:mynewapp/screens/riverpod/riverpod.dart';
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
@@ -63,8 +64,10 @@ class RouteGenerator {
               //   child: child,
               // );
             });
-      case RiverpodHive.routeName: // '/riverpodHive'
-        return MaterialPageRoute(builder: (context) => RiverpodHive());
+      case Riverpod.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => Riverpod());
+      case HiveTuto.routeName: // '/hive'
+        return MaterialPageRoute(builder: (context) => HiveTuto());
       case UserApiTest.routeName: // '/userApiTest'
         return MaterialPageRoute(builder: (context) => UserApiTest());
       case MoviesTitle.routeName: // '/moviesTitle'

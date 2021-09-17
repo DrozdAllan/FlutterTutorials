@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynewapp/api/userApi.dart';
-import 'package:mynewapp/models/userModel.dart';
+import 'package:mynewapp/models/user.dart';
 
 class UserApiTest extends StatefulWidget {
   static const routeName = '/userApiTest';

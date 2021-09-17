@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:mynewapp/models/userModel.dart';
+import 'package:mynewapp/models/user.dart';
 
 class UserApi {
   final String _baseUrl = 'https://reqres.in/api';
