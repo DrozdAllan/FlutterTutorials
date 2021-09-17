@@ -1,6 +1,8 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
@@ -9,17 +11,18 @@ import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
 
-void main() => runApp(
-      // For widgets to be able to read providers, we need to wrap the entire
-      // application in a "ProviderScope" widget.
-      // This is where the state of our providers will be stored.
-      ProviderScope(child: MyApp()),
-    );
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox('myDuckBox');
+  runApp(
+    ProviderScope(child: MyApp()),
+  );
+}
 
-// Extend ConsumerWidget instead of StatelessWidget, which is exposed by Riverpod
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Startup Name Generator',

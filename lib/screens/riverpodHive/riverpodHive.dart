@@ -12,8 +12,8 @@ class RiverpodHive extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final provider = ref.watch(pairWordsNotifierProvider);
-    final notifier = ref.watch(pairWordsNotifierProvider.notifier);
+    final controller = ref.watch(pairWordsController);
+    final notifier = ref.read(pairWordsController.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -25,14 +25,14 @@ class RiverpodHive extends ConsumerWidget {
           _presentationText(),
           Expanded(
             child: ListView.builder(
-                itemCount: provider.length,
+                itemCount: controller.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     child: ListTile(
-                        title: Text(provider.elementAt(index)),
+                        title: Text(controller.elementAt(index)),
                         trailing: Icon(Icons.delete),
                         onTap: () {
-                          notifier.removePair(provider.elementAt(index));
+                          notifier.removePair(controller.elementAt(index));
                         }),
                   );
                 }),
