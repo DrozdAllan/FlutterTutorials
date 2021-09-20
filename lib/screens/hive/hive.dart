@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-
-// CONSUME A PROVIDER AND NOTIFY CHANGES IN A STATELESS WIDGET
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mynewapp/database/duckBox.dart';
+import 'package:mynewapp/models/duck.dart';
+import 'dart:developer';
 
 class HiveTuto extends StatelessWidget {
   const HiveTuto({Key? key}) : super(key: key);
@@ -10,7 +12,8 @@ class HiveTuto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-// TODO import the database
+// import the database
+    var box = DuckBox.box;
 
     return Scaffold(
       appBar: AppBar(
@@ -18,22 +21,34 @@ class HiveTuto extends StatelessWidget {
       ),
       extendBody: true,
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           _presentationText(),
-          //   Expanded(
-          //     child: ListView.builder(
-          //         itemCount: controller.length,
-          //         itemBuilder: (BuildContext context, int index) {
-          //           return Container(
-          //             child: ListTile(
-          //                 title: Text(controller.elementAt(index)),
-          //                 trailing: Icon(Icons.delete),
-          //                 onTap: () {
-          //                   notifier.removePair(controller.elementAt(index));
-          //                 }),
-          //           );
-          //         }),
-          //   ),
+          AddDuckForm(),
+          box == null
+              ? Container()
+              : Expanded(
+                  child: ValueListenableBuilder(
+                      valueListenable: box.listenable(),
+                      builder: (context, Box box, _) {
+                        List<dynamic> ducksList = box.values.toList();
+                        inspect(ducksList);
+                        return ListView.builder(
+                          itemCount: ducksList.length,
+                          itemBuilder: (BuildContext context, int duckKey) {
+                            return ListTile(
+                              title: Text(ducksList.elementAt(duckKey).name),
+                              subtitle: Text('key is ' +
+                                  ducksList.elementAt(duckKey).key.toString() +
+                                  ' and isExtinct is ' +
+                                  ducksList
+                                      .elementAt(duckKey)
+                                      .isExtinct
+                                      .toString()),
+                            );
+                          },
+                        );
+                      })),
         ],
       ),
     );
@@ -47,6 +62,58 @@ class HiveTuto extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
         ),
       ],
+    );
+  }
+}
+
+class AddDuckForm extends StatefulWidget {
+  const AddDuckForm({Key? key}) : super(key: key);
+
+  @override
+  State<AddDuckForm> createState() => _AddDuckFormState();
+}
+
+class _AddDuckFormState extends State<AddDuckForm> {
+  final _formKey = GlobalKey<FormState>();
+  final duckController = TextEditingController();
+
+  @override
+  void dispose() {
+    duckController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          TextFormField(
+            controller: duckController,
+            // The validator receives the text that the user has entered.
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter some text';
+              }
+              return null;
+            },
+            decoration: InputDecoration(
+              label: Text('Enter duck name'),
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              if (_formKey.currentState!.validate()) {
+                DuckBox.box?.add(Duck(duckController.value.text, true));
+
+                duckController.clear();
+              }
+            },
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
     );
   }
 }

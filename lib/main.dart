@@ -1,8 +1,7 @@
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
@@ -14,8 +13,7 @@ import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  await Hive.openBox('myDuckBox');
+  await DuckBox.init();
   runApp(
     ProviderScope(child: MyApp()),
   );
@@ -32,7 +30,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      initialRoute: PairWords.routeName,
+      initialRoute: Home.routeName,
     );
   }
 }

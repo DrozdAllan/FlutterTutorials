@@ -1,15 +1,31 @@
-// import 'package:english_words/english_words.dart';
+import 'package:hive/hive.dart';
+import 'package:mynewapp/models/duck.dart';
+import 'package:path_provider/path_provider.dart';
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+class DuckBox {
+  static Box? box;
 
-final databaseProvider = Provider<Database>((ref) {
-  return Database();
-});
+  static final List<Duck> ducks = [
+    Duck('Kilamore', true),
+    Duck('Kalimero', true),
+    Duck('Kalemori', true),
+    Duck('Kelomira', true),
+  ];
 
-class Database {
-  Set<String> _wordPairsList = {'bobo', 'zinzin', 'caca'};
+  static Future<void> init() async {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
 
-  Set<String> getWordPairsList() {
-    return _wordPairsList;
+    Hive.registerAdapter(DuckAdapter());
+
+    box = await Hive.openBox('DuckBox');
+
+    // box?.clear();
+    // verify the state of the box on the app
+    var values = box?.values;
+    if (values == null || values.isEmpty) {
+      // populate the box if it's the first time the app is built
+      box?.addAll(ducks);
+    }
   }
 }

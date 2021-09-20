@@ -17,21 +17,18 @@ class DuckAdapter extends TypeAdapter<Duck> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Duck(
-      fields[0] as int,
-      fields[1] as String,
-      fields[2] as bool,
+      fields[0] as String,
+      fields[1] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Duck obj) {
     writer
-      ..writeByte(3)
-      ..writeByte(0)
-      ..write(obj.id)
-      ..writeByte(1)
-      ..write(obj.name)
       ..writeByte(2)
+      ..writeByte(0)
+      ..write(obj.name)
+      ..writeByte(1)
       ..write(obj.isExtinct);
   }
 

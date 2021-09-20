@@ -3,13 +3,11 @@ import 'package:hive/hive.dart';
 part 'duck.g.dart';
 
 @HiveType(typeId: 0)
-class Duck {
+class Duck extends HiveObject {
   @HiveField(0)
-  final int id;
-  @HiveField(1)
   final String name;
-  @HiveField(2)
+  @HiveField(1)
   final bool isExtinct;
 
-  Duck(this.id, this.name, this.isExtinct);
+  Duck(this.name, this.isExtinct);
 }
