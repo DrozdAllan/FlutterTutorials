@@ -2,6 +2,7 @@ import 'package:hive/hive.dart';
 
 part 'duck.g.dart';
 
+// Extending HiveObject give auto-increment key, you only worry about the value
 @HiveType(typeId: 0)
 class Duck extends HiveObject {
   @HiveField(0)

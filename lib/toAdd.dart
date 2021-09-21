@@ -33,18 +33,24 @@ import 'package:flutter/material.dart';
             //   ),
             // ),
 
-            // Dismissible(
-            //             key: Key(recipe.title),
-            //             onDismissed: (direction) {
-            //               setState(() {
-            //                 box.delete(recipe.key());
-            //               });
-            //               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            //                   content: Text("${recipe.title} supprimé")));
-            //             },
-            //             background: Container(color: Colors.red),
-            //             child: RecipeItemWidget(recipe));
 
             // GestureDetector()
             // Hero()
             // SizedBox()
+
+
+    //         InkWell(
+    //     onTap: () => Navigator.pushNamed(context, '/about'),
+    //     child: Padding(
+    //       padding: EdgeInsets.only(top: 8.0),
+    //       child: Column(
+    //         children: <Widget>[
+    //           Icon(
+    //             Icons.ac_unit,
+    //             color: Theme.of(context).accentColor,
+    //           ),
+    //           Text('Simple pushNamed'),
+    //         ],
+    //       ),
+    //     ),
+    //   ),

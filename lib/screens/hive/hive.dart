@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -29,26 +30,88 @@ class HiveTuto extends StatelessWidget {
               ? Container()
               : Expanded(
                   child: ValueListenableBuilder(
-                      valueListenable: box.listenable(),
-                      builder: (context, Box box, _) {
-                        List<dynamic> ducksList = box.values.toList();
-                        inspect(ducksList);
-                        return ListView.builder(
-                          itemCount: ducksList.length,
-                          itemBuilder: (BuildContext context, int duckKey) {
-                            return ListTile(
-                              title: Text(ducksList.elementAt(duckKey).name),
-                              subtitle: Text('key is ' +
-                                  ducksList.elementAt(duckKey).key.toString() +
-                                  ' and isExtinct is ' +
-                                  ducksList
-                                      .elementAt(duckKey)
-                                      .isExtinct
-                                      .toString()),
-                            );
-                          },
-                        );
-                      })),
+                    valueListenable: box.listenable(),
+                    builder: (context, Box box, _) {
+                      // convert the duckBox to a list to make a ListView Builder
+                      List<dynamic> ducksList = box.values.toList();
+                      inspect(ducksList);
+                      return ListView.builder(
+                        itemCount: ducksList.length,
+                        itemBuilder: (BuildContext context, int listIndex) {
+                          // get the duck from his index on the list to easily get the duck's properties (name, key...)
+                          final duck = ducksList.elementAt(listIndex);
+                          return Dismissible(
+                            key: Key(duck.name),
+                            onDismissed: (direction) {
+                              DuckBox.box?.delete(duck.key);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text("${duck.name} supprimé")));
+                            },
+                            background: Container(
+                              color: Colors.amber,
+                            ),
+                            child: Card(
+                              margin: EdgeInsets.all(8),
+                              elevation: 8,
+                              child: Row(
+                                children: [
+                                  Hero(
+                                    tag: "imageRecipe" + duck.name,
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
+                                      //   imageBuilder: (context, imageProvider) =>
+                                      //       Container(
+                                      //     decoration: BoxDecoration(
+                                      //       image: DecorationImage(
+                                      //         image: imageProvider,
+                                      //         fit: BoxFit.cover,
+                                      //         colorFilter: ColorFilter.mode(
+                                      //             Colors.red,
+                                      //             BlendMode.colorBurn),
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      placeholder: (context, url) => Center(
+                                          child: CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          Icon(Icons.error),
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: Text(duck.name,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20)),
+                                        ),
+                                        Text('Tap for details, Swipe to delete',
+                                            style: TextStyle(
+                                                color: Colors.grey[500],
+                                                fontSize: 16))
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
         ],
       ),
     );
@@ -108,9 +171,11 @@ class _AddDuckFormState extends State<AddDuckForm> {
                 DuckBox.box?.add(Duck(duckController.value.text, true));
 
                 duckController.clear();
+
+                FocusScope.of(context).unfocus();
               }
             },
-            child: const Text('Submit'),
+            child: const Text('Add new duck'),
           ),
         ],
       ),

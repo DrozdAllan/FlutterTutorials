@@ -13,6 +13,11 @@ class PairWords extends StatefulWidget {
 
 class _PairWordsState extends State<PairWords> {
   final _suggestions = <WordPair>[];
+
+  // the args are on the same widget/page, so you dont have to import them
+//   if you need to import them :
+//   final args =
+//   ModalRoute.of(context)!.settings.arguments as (an object model);
   static var _saved = <WordPair>{};
   final _biggerFont = const TextStyle(fontSize: 18.0);
 
