@@ -12,7 +12,7 @@ const Montserra = 'Montserrat';
 final Color _mainColor = Colors.teal.shade800;
 
 ThemeData? myTheme = ThemeData(
-  brightness: Brightness.dark,
+  brightness: Brightness.light,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   primarySwatch: Colors.cyan,
   appBarTheme: AppBarTheme(

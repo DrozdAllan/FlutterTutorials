@@ -40,7 +40,7 @@ class Home extends StatelessWidget {
           ListTile(
             title: Text('FlutterFire'),
             onTap: () {
-              Navigator.pushNamed(context, '/pairWords');
+              Navigator.pushNamed(context, '/flutterFire');
             },
           ),
         ],

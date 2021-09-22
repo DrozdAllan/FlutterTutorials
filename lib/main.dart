@@ -1,8 +1,10 @@
 import 'package:english_words/english_words.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
+import 'package:mynewapp/screens/flutterFire/flutterFire.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
@@ -12,8 +14,9 @@ import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
 import 'package:mynewapp/style.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await DuckBox.init();
   runApp(
     ProviderScope(child: MyApp()),
@@ -64,6 +67,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Riverpod());
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
+      case FlutterFire.routeName: // '/flutterFire'
+        return MaterialPageRoute(builder: (context) => FlutterFire());
       case UserApiTest.routeName: // '/userApiTest'
         return MaterialPageRoute(builder: (context) => UserApiTest());
       case MoviesTitle.routeName: // '/moviesTitle'
