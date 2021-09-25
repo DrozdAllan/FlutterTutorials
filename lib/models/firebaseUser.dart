@@ -1,8 +1,7 @@
 class FirebaseUser {
-  final String email;
-  final bool emailVerified;
-  final bool isAnonymous;
   final String uid;
+  final String name;
+  final int ducks;
 
-  FirebaseUser(this.email, this.emailVerified, this.isAnonymous, this.uid);
+  FirebaseUser({required this.uid, required this.name, required this.ducks});
 }
