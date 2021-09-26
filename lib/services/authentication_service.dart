@@ -2,19 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mynewapp/services/database_service.dart';
 
 class AuthenticationService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   //create a stream to check if there's a user logged in (to use with a StreamBuilder widget)
   Stream authState = FirebaseAuth.instance.authStateChanges();
 
-  Future checkAuth() async {
-    if (_auth.currentUser != null) {
-      print('already connected');
-      return _auth.currentUser;
-    } else {
-      print('not connected');
-      return false;
-    }
-  }
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> register(String email, String username, String password) async {
     try {

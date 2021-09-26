@@ -25,7 +25,13 @@ class _UserApiTestState extends State<UserApiTest> {
             child: FutureBuilder<User?>(
               future: _client.getUser(id: '1'),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
+                if (!snapshot.hasData) {
+                  return Text("Document does not exist");
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
                   User? userInfo = snapshot.data;
                   if (userInfo != null) {
                     Data userData = userInfo.data;

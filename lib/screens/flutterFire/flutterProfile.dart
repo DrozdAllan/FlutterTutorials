@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mynewapp/models/firebaseUser.dart';
+import 'package:mynewapp/models/firestoreUser.dart';
 import 'package:mynewapp/services/authentication_service.dart';
 import 'package:mynewapp/services/database_service.dart';
 
@@ -31,19 +31,24 @@ class _FlutterProfileState extends State<FlutterProfile> {
                         AuthenticationService().logOut();
                       },
                     ),
-                    FutureBuilder<FirebaseUser>(
-                      future: DatabaseService().getUser(),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<FirebaseUser> snapshot) {
+                    StreamBuilder<FirestoreUser>(
+                      stream: DatabaseService().userStream(),
+                      builder: (context, snapshot) {
                         if (snapshot.hasError) {
-                          return Text("Something went wrong");
+                          return Text("Snapshot has error");
                         }
-                        if (snapshot.hasData) {
-                          return Text("Document does not exist");
+                        if (!snapshot.hasData) {
+                          return Text("Snapshot has no data");
                         }
-                        if (snapshot.connectionState == ConnectionState.done) {
-                          FirebaseUser? data = snapshot.data;
-                          return Text("Full Name: $data");
+                        if (snapshot.connectionState ==
+                            ConnectionState.active) {
+                          FirestoreUser? firestoreUser = snapshot.data;
+                          return Column(
+                            children: [
+                              Text("Welcome ${firestoreUser?.name} !"),
+                              Text("You have ${firestoreUser?.ducks} ducks"),
+                            ],
+                          );
                         }
                         return Text("loading");
                       },

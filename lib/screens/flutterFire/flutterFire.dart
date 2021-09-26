@@ -10,16 +10,14 @@ class FlutterFire extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder(
       stream: AuthenticationService().authState,
-      builder: (context, AsyncSnapshot snapshot) {
+      builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.active) {
           return Center(child: CircularProgressIndicator());
         }
         final user = snapshot.data;
         if (user == null) {
-          print("user is not logged in");
           return FlutterAuth();
         } else {
-          print('user logged in');
           return FlutterProfile();
         }
       },
