@@ -1,11 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mynewapp/models/firestoreUser.dart';
 import 'package:mynewapp/services/database_service.dart';
 
 class AuthenticationService {
-  //create a stream to check if there's a user logged in (to use with a StreamBuilder widget)
-  Stream authState = FirebaseAuth.instance.authStateChanges();
-
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  // create a FirebaseAuthUser object based on what firebaseAuth returns as a user
+  FirebaseAuthUser? _userFromFirebaseAuth(User? user) {
+    return user != null ? FirebaseAuthUser(uid: user.uid) : null;
+  }
+
+//   create a Stream to check if there's a user logged in (to use with a StreamBuilder widget)
+  Stream<FirebaseAuthUser?> get user {
+    return _auth.authStateChanges().map(_userFromFirebaseAuth);
+  }
+
+// trying to use riverpod StreamProvider
+  final firebaseUserProvider = StreamProvider.autoDispose((ref) {
+    return FirebaseAuth.instance.authStateChanges();
+  });
 
   Future<void> register(String email, String username, String password) async {
     try {

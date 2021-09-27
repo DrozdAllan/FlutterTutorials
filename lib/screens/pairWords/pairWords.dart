@@ -78,7 +78,7 @@ class _PairWordsState extends State<PairWords> {
     return Column(
       children: [
         Text(
-          'PairWords is a widget that generates a random/infinite List of pairWords with the package english_words. It saves the favored ones in a Set<WordPair> and passes it as an argument to the Favorites screen. Because the Set isn\'t in a provider, there is inconsistency if you delete a fav and return to this page',
+          'PairWords is a widget that generates a random/infinite List of pairWords with the package english_words. It saves the favored ones in a Set<WordPair> and passes it as an argument to the Favorites screen',
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
         ),
         ElevatedButton(

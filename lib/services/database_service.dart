@@ -7,10 +7,6 @@ class DatabaseService {
   final CollectionReference<Map<String, dynamic>> userCollection =
       FirebaseFirestore.instance.collection("users");
 
-  Future<void> saveNewUser(String uid, String username) async {
-    return await userCollection.doc(uid).set({'name': username});
-  }
-
   Stream<FirestoreUser> userStream() {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
 
@@ -18,5 +14,13 @@ class DatabaseService {
         .doc(userID)
         .snapshots()
         .map((snap) => FirestoreUser.fromMap(snap.data()));
+  }
+
+  Future<void> saveNewUser(String uid, String username) async {
+    return await userCollection.doc(uid).set({'name': username});
+  }
+
+  Future<void> addDuck(String uid, int duck) async {
+    return await userCollection.doc(uid).set({'ducks': duck});
   }
 }

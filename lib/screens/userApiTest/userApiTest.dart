@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynewapp/api/userApi.dart';
-import 'package:mynewapp/models/user.dart';
+import 'package:mynewapp/models/apiUser.dart';
 
 class UserApiTest extends StatefulWidget {
   static const routeName = '/userApiTest';
@@ -22,7 +22,7 @@ class _UserApiTestState extends State<UserApiTest> {
         children: [
           _presentationText(),
           Center(
-            child: FutureBuilder<User?>(
+            child: FutureBuilder<ApiUser?>(
               future: _client.getUser(id: '1'),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -32,7 +32,7 @@ class _UserApiTestState extends State<UserApiTest> {
                   return Text("Document does not exist");
                 }
                 if (snapshot.connectionState == ConnectionState.done) {
-                  User? userInfo = snapshot.data;
+                  ApiUser? userInfo = snapshot.data;
                   if (userInfo != null) {
                     Data userData = userInfo.data;
                     return Column(

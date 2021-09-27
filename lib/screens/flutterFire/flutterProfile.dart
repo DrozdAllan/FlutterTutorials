@@ -47,6 +47,13 @@ class _FlutterProfileState extends State<FlutterProfile> {
                             children: [
                               Text("Welcome ${firestoreUser?.name} !"),
                               Text("You have ${firestoreUser?.ducks} ducks"),
+                              //   ElevatedButton(
+                              //       onPressed: () {
+                              //         DatabaseService().addDuck(
+                              //             firestoreUser.ducks,
+                              //             firestoreUser!.ducks);
+                              //       },
+                              //       child: Text('add a duck')),
                             ],
                           );
                         }

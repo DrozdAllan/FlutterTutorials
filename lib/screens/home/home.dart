@@ -20,9 +20,9 @@ class Home extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('Riverpod state'),
+            title: Text('UserApiTest'),
             onTap: () {
-              Navigator.pushNamed(context, '/riverpod');
+              Navigator.pushNamed(context, '/userApiTest');
             },
           ),
           ListTile(
@@ -32,9 +32,9 @@ class Home extends StatelessWidget {
             },
           ),
           ListTile(
-            title: Text('UserApiTest'),
+            title: Text('Riverpod state'),
             onTap: () {
-              Navigator.pushNamed(context, '/userApiTest');
+              Navigator.pushNamed(context, '/riverpod');
             },
           ),
           ListTile(

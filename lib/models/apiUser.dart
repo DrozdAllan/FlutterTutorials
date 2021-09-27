@@ -1,11 +1,11 @@
-class User {
+class ApiUser {
   final Data data;
 
-  const User({
+  const ApiUser({
     required this.data,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory ApiUser.fromJson(Map<String, dynamic> json) => ApiUser(
         data: Data.fromJson(json["data"]),
       );
 
