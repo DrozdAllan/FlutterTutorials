@@ -15,9 +15,10 @@ final futureProvider = FutureProvider.autoDispose<String>((ref) async {
 
 // Stream Provider, same as Future Provider
 final streamProvider = StreamProvider.autoDispose<int>((ref) async* {
-  while (true) {
-    int i = 0;
+  int i = 0;
+  while (i < 10) {
     await Future.delayed(Duration(seconds: 2));
+    print(i);
     yield i++;
   }
 });

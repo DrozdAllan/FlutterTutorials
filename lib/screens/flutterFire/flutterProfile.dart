@@ -1,15 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/models/firestoreUser.dart';
 import 'package:mynewapp/services/authentication_service.dart';
 import 'package:mynewapp/services/database_service.dart';
 
-class FlutterProfile extends StatefulWidget {
-  const FlutterProfile({Key? key}) : super(key: key);
-  @override
-  State<FlutterProfile> createState() => _FlutterProfileState();
-}
-
-class _FlutterProfileState extends State<FlutterProfile> {
+class FlutterProfile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,41 +22,8 @@ class _FlutterProfileState extends State<FlutterProfile> {
               child: Container(
                 child: Column(
                   children: [
-                    ElevatedButton(
-                      child: Text('Logout'),
-                      onPressed: () {
-                        AuthenticationService().logOut();
-                      },
-                    ),
-                    StreamBuilder<FirestoreUser>(
-                      stream: DatabaseService().userStream(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text("Snapshot has error");
-                        }
-                        if (!snapshot.hasData) {
-                          return Text("Snapshot has no data");
-                        }
-                        if (snapshot.connectionState ==
-                            ConnectionState.active) {
-                          FirestoreUser? firestoreUser = snapshot.data;
-                          return Column(
-                            children: [
-                              Text("Welcome ${firestoreUser?.name} !"),
-                              Text("You have ${firestoreUser?.ducks} ducks"),
-                              //   ElevatedButton(
-                              //       onPressed: () {
-                              //         DatabaseService().addDuck(
-                              //             firestoreUser.ducks,
-                              //             firestoreUser!.ducks);
-                              //       },
-                              //       child: Text('add a duck')),
-                            ],
-                          );
-                        }
-                        return Text("loading");
-                      },
-                    )
+                    _logoutButton(),
+                    RiverpodStream(),
                   ],
                 ),
               ),
@@ -67,6 +31,45 @@ class _FlutterProfileState extends State<FlutterProfile> {
           ],
         ),
       ),
+    );
+  }
+
+  _logoutButton() {
+    return ElevatedButton(
+      child: Text('Logout'),
+      onPressed: () {
+        AuthenticationService().logOut();
+      },
+    );
+  }
+}
+
+class RiverpodStream extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    AsyncValue<FirestoreUser> firestoreUser =
+        ref.watch(DatabaseService.firestoreUserProvider);
+    inspect(firestoreUser);
+    return firestoreUser.when(
+      data: (firestoreUser) {
+        return Column(
+          children: [
+            Text('welcome ' + firestoreUser.name),
+            Text('you have ${firestoreUser.ducks} ducks'),
+            ElevatedButton(
+              style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.green)),
+              onPressed: () {
+                DatabaseService().addDuck(2);
+              },
+              child: Text('add a duck'),
+            )
+          ],
+        );
+      },
+      loading: () => const CircularProgressIndicator(),
+      error: (error, stack) => Text('Error : $error'),
     );
   }
 }

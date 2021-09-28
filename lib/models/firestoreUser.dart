@@ -1,16 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirebaseAuthUser {
-  final String uid;
-
-  FirebaseAuthUser({required this.uid});
-
-  factory FirebaseAuthUser.fromMap(Map<String, dynamic>? object) =>
-      FirebaseAuthUser(
-        uid: object?['uid'],
-      );
-}
-
 class FirestoreUser {
   final String name;
   final int ducks;
@@ -18,7 +7,7 @@ class FirestoreUser {
   FirestoreUser({required this.name, required this.ducks});
 
   factory FirestoreUser.fromMap(Map<String, dynamic>? object) => FirestoreUser(
-        name: object?['name'],
+        name: object?['name'] ?? 'Zinzin',
         ducks: object?['ducks'] ?? 0,
       );
 }

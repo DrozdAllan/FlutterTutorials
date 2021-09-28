@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/screens/flutterFire/flutterAuth.dart';
@@ -11,41 +9,20 @@ class FlutterFire extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return StreamBuilder(
-      stream: AuthenticationService().user,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState != ConnectionState.active) {
-          return Center(child: CircularProgressIndicator());
-        }
-        final user = snapshot.data;
-        if (user == null) {
+    // you can now listen for the stream within the instance
+    AsyncValue<String?> userID =
+        ref.watch(AuthenticationService.firebaseUserProvider);
+    return userID.when(
+      data: (userID) {
+        print(userID);
+        if (userID == null) {
           return FlutterAuth();
         } else {
           return FlutterProfile();
         }
       },
+      loading: () => const CircularProgressIndicator(),
+      error: (error, stack) => Text('Error : $error'),
     );
   }
 }
-
-// class FlutterFire extends StatelessWidget {
-//   static const routeName = '/flutterFire';
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return StreamBuilder(
-//       stream: AuthenticationService().user,
-//       builder: (context, snapshot) {
-//         if (snapshot.connectionState != ConnectionState.active) {
-//           return Center(child: CircularProgressIndicator());
-//         }
-//         final user = snapshot.data;
-//         if (user == null) {
-//           return FlutterAuth();
-//         } else {
-//           return FlutterProfile();
-//         }
-//       },
-//     );
-//   }
-// }
