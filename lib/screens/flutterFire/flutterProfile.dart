@@ -61,10 +61,15 @@ class RiverpodStream extends ConsumerWidget {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.green)),
               onPressed: () {
-                DatabaseService().addDuck(2);
+                DatabaseService().addDuck(firestoreUser.ducks + 1);
               },
               child: Text('add a duck'),
-            )
+            ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/chat');
+                },
+                child: Text('Go to Chat')),
           ],
         );
       },

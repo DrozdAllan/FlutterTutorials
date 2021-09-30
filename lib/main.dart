@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
+import 'package:mynewapp/screens/flutterFire/chat.dart';
+import 'package:mynewapp/screens/flutterFire/chatScreen.dart';
 import 'package:mynewapp/screens/flutterFire/flutterFire.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
@@ -69,6 +71,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case FlutterFire.routeName: // '/flutterFire'
         return MaterialPageRoute(builder: (context) => FlutterFire());
+      case Chat.routeName: // '/flutterFire'
+        return MaterialPageRoute(builder: (context) => Chat());
+      case ChatScreen.routeName: // '/flutterFire'
+        return MaterialPageRoute(
+            builder: (context) => ChatScreen(
+                  peerUid: settings.arguments,
+                ));
       case UserApiTest.routeName: // '/userApiTest'
         return MaterialPageRoute(builder: (context) => UserApiTest());
       case MoviesTitle.routeName: // '/moviesTitle'
