@@ -1,16 +1,19 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+class FirestoreMessage {
+  final String from;
+  final String to;
+  final String data;
+  final String timestamp;
 
-class FirestoreConversation {
-  final String created;
+  FirestoreMessage(
+      {required this.from,
+      required this.to,
+      required this.data,
+      required this.timestamp});
 
-  FirestoreConversation({required this.created});
-
-  factory FirestoreConversation.fromMap(Map<String, dynamic>? object) =>
-      FirestoreConversation(created: object?['created']);
-
-  factory FirestoreConversation.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
-    Map data = documentSnapshot.data() as Map<String, dynamic>;
-    return FirestoreConversation(created: data['created']);
-  }
+  factory FirestoreMessage.fromMap(Map<String, dynamic> document) =>
+      FirestoreMessage(
+          from: document['from'],
+          to: document['to'],
+          data: document['data'],
+          timestamp: document['timestamp']);
 }

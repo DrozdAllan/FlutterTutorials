@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/models/firestoreUser.dart';
@@ -49,7 +47,6 @@ class RiverpodStream extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<FirestoreUser> firestoreUser =
         ref.watch(DatabaseService.firestoreUserProvider);
-    inspect(firestoreUser);
     return firestoreUser.when(
       data: (firestoreUser) {
         return Column(

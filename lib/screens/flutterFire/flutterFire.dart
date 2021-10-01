@@ -14,7 +14,6 @@ class FlutterFire extends ConsumerWidget {
         ref.watch(AuthenticationService.firebaseUserProvider);
     return userID.when(
       data: (userID) {
-        print(userID);
         if (userID == null) {
           return FlutterAuth();
         } else {

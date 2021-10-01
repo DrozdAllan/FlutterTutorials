@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mynewapp/models/firestoreUser.dart';
 import 'package:mynewapp/services/database_service.dart';
 
 class Chat extends StatelessWidget {

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,8 +9,9 @@ class DatabaseService {
   static final CollectionReference<Map<String, dynamic>> userCollection =
       FirebaseFirestore.instance.collection("users");
 
-  static final CollectionReference<Map<String, dynamic>> messageCollection =
-      FirebaseFirestore.instance.collection("messages");
+  static final CollectionReference<Map<String, dynamic>>
+      conversationCollection =
+      FirebaseFirestore.instance.collection("conversations");
 
   static final firestoreUserProvider = StreamProvider<FirestoreUser>((ref) {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
@@ -39,21 +38,20 @@ class DatabaseService {
     var currentUser = await userCollection
         .doc(userID)
         .get()
-        // translate the DocumentSnapshot<Map<String, dynamic>> to a FirestoreUser model
-        .then((value) => FirestoreUser.fromSnapshot(value));
+        // translate the Map<String, dynamic>? to a FirestoreUser model
+        .then((value) => FirestoreUser.fromMap(value.data()));
     // query all the users (all the documents in 'users' collection) except the one with the same name as the currentUser
     QuerySnapshot<Map<String, dynamic>> users = await userCollection
         .where('name', isNotEqualTo: currentUser.name)
         .get();
     // translate the List of document snapshots to an iterable of FirestoreUsers to create a list with listviewBuilder
-    return users.docs.map((e) => FirestoreUsers.fromSnapshot(e));
+    return users.docs.map((snapshot) => FirestoreUsers.fromSnapshot(snapshot));
   });
 
   static final conversationProvider =
-      StreamProvider.family((ref, peerUid) async* {
+      StreamProvider.family((ref, String peerUid) {
     // retrieve the uid of the current FirebaseAuth User
     String? userID = FirebaseAuth.instance.currentUser?.uid;
-
     String? conversationId = '';
 
     if (userID.hashCode <= peerUid.hashCode) {
@@ -62,25 +60,14 @@ class DatabaseService {
       conversationId = '$peerUid-$userID';
     }
 
-    // search if the conversation already exists
-    messageCollection
-        .doc('$conversationId')
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-      if (documentSnapshot.exists) {
-        print('Document exists on the database');
-        // retrieve conversation
-        var conv = messageCollection.doc('$conversationId').get();
-        print(conv);
-        // return messageCollection.doc('$conversationId').snapshots();
-      } else {
-        print('Document doesn\'t exist on the database');
-        // create conversation
-        messageCollection
-            .doc('$userID-$peerUid')
-            .set({'created': Timestamp.now()});
-        return messageCollection.doc('$userID-$peerUid').get();
-      }
-    });
+    print(conversationId);
+    return conversationCollection
+        .doc(conversationId)
+        .collection('messages')
+        .orderBy('timestamp', descending: true)
+        .limit(10)
+        .snapshots()
+        .map((querySnapshot) =>
+            querySnapshot.docs.map((e) => FirestoreMessage.fromMap(e.data())));
   });
 }

@@ -10,12 +10,6 @@ class FirestoreUser {
         name: object?['name'] ?? 'Zinzin',
         ducks: object?['ducks'] ?? 0,
       );
-
-  factory FirestoreUser.fromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
-    Map data = documentSnapshot.data() as Map<String, dynamic>;
-    return FirestoreUser(name: data['name'], ducks: data['ducks'] ?? 0);
-  }
 }
 
 class FirestoreUsers {
