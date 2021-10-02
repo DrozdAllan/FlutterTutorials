@@ -4,14 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/models/firestoreConversation.dart';
 import 'package:mynewapp/models/firestoreUser.dart';
 
-class DatabaseService {
+class UserService {
 // the collection reference, firestore way of pointing to a noSQL directory
   static final CollectionReference<Map<String, dynamic>> userCollection =
       FirebaseFirestore.instance.collection("users");
-
-  static final CollectionReference<Map<String, dynamic>>
-      conversationCollection =
-      FirebaseFirestore.instance.collection("conversations");
 
   static final firestoreUserProvider = StreamProvider<FirestoreUser>((ref) {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
@@ -47,6 +43,12 @@ class DatabaseService {
     // translate the List of document snapshots to an iterable of FirestoreUsers to create a list with listviewBuilder
     return users.docs.map((snapshot) => FirestoreUsers.fromSnapshot(snapshot));
   });
+}
+
+class ConversationService {
+  static final CollectionReference<Map<String, dynamic>>
+      conversationCollection =
+      FirebaseFirestore.instance.collection("conversations");
 
   static final conversationProvider =
       StreamProvider.family((ref, String peerUid) {
@@ -70,4 +72,34 @@ class DatabaseService {
         .map((querySnapshot) =>
             querySnapshot.docs.map((e) => FirestoreMessage.fromMap(e.data())));
   });
+
+  static sendMessage(String peerUid, String message) async {
+    print(peerUid + message);
+
+    String? userID = FirebaseAuth.instance.currentUser?.uid;
+    String? conversationId = '';
+
+    if (userID.hashCode <= peerUid.hashCode) {
+      conversationId = '$userID-$peerUid';
+    } else {
+      conversationId = '$peerUid-$userID';
+    }
+
+    print(conversationId);
+
+    await FirebaseFirestore.instance
+        .collection('conversations')
+        .doc(conversationId)
+        .collection('messages')
+        // A ref to the conversation collection instance with a converter to be type safe
+        .withConverter<FirestoreMessage>(
+            fromFirestore: (snapshot, _) =>
+                FirestoreMessage.fromMap(snapshot.data()!),
+            toFirestore: (FirestoreMessage, _) => FirestoreMessage.toMap())
+        .add(FirestoreMessage(
+            from: userID,
+            to: peerUid,
+            data: message,
+            timestamp: Timestamp.now().toString()));
+  }
 }

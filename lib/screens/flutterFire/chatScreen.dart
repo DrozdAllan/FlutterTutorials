@@ -17,7 +17,12 @@ class ChatScreen extends StatelessWidget {
       ),
       body: Container(
         child: Column(
-          children: [Conversation(peerUid), BuildInput()],
+          children: [
+            Conversation(peerUid),
+            BuildInput(
+              peerUid: peerUid,
+            )
+          ],
         ),
       ),
     );
@@ -27,12 +32,16 @@ class ChatScreen extends StatelessWidget {
 }
 
 class BuildInput extends StatefulWidget {
+  final String peerUid;
+
+  const BuildInput({Key? key, required this.peerUid}) : super(key: key);
+
   @override
   State<BuildInput> createState() => _BuildInputState();
 }
 
 class _BuildInputState extends State<BuildInput> {
-  final messageController = TextEditingController();
+  final TextEditingController messageController = TextEditingController();
 
   @override
   void dispose() {
@@ -65,7 +74,7 @@ class _BuildInputState extends State<BuildInput> {
           Flexible(
             child: TextField(
               onSubmitted: (value) {
-                sendMessage(messageController.text);
+                sendMessage(widget.peerUid, messageController.value.text);
               },
               style: TextStyle(color: Colors.blueGrey, fontSize: 15.0),
               controller: messageController,
@@ -81,7 +90,8 @@ class _BuildInputState extends State<BuildInput> {
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: Icon(Icons.send),
-                onPressed: () => sendMessage(messageController.value.text),
+                onPressed: () =>
+                    sendMessage(widget.peerUid, messageController.value.text),
                 color: Colors.blueGrey,
               ),
             ),
@@ -91,18 +101,11 @@ class _BuildInputState extends State<BuildInput> {
       ),
     );
   }
-}
 
-sendMessage(String text) {
-  // TODO: split database_service into user_service and conversation_service and add sendMessage function to conversation_service
-//   conversationService.sendMessage(
-//       chatParams.getChatGroupId(),
-//       Message(
-//           idFrom: chatParams.userUid,
-//           idTo: chatParams.peer.uid,
-//           timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
-//           content: content,
-//           type: type));
+  void sendMessage(String peerUid, String message) {
+    ConversationService.sendMessage(peerUid, message);
+    messageController.clear();
+  }
 }
 
 class Conversation extends ConsumerWidget {
@@ -111,11 +114,12 @@ class Conversation extends ConsumerWidget {
   Conversation(this.peerUid);
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(DatabaseService.conversationProvider(peerUid)).when(
+    return ref.watch(ConversationService.conversationProvider(peerUid)).when(
           loading: () => const CircularProgressIndicator(),
           error: (err, stack) => Text('Error: $err'),
           data: (value) {
             return ListView.builder(
+              reverse: true,
               shrinkWrap: true,
               itemCount: value.length,
               itemBuilder: (BuildContext context, int index) {

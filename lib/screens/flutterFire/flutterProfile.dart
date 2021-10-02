@@ -46,7 +46,7 @@ class RiverpodStream extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     AsyncValue<FirestoreUser> firestoreUser =
-        ref.watch(DatabaseService.firestoreUserProvider);
+        ref.watch(UserService.firestoreUserProvider);
     return firestoreUser.when(
       data: (firestoreUser) {
         return Column(
@@ -58,7 +58,7 @@ class RiverpodStream extends ConsumerWidget {
                   backgroundColor:
                       MaterialStateProperty.all<Color>(Colors.green)),
               onPressed: () {
-                DatabaseService().addDuck(firestoreUser.ducks + 1);
+                UserService().addDuck(firestoreUser.ducks + 1);
               },
               child: Text('add a duck'),
             ),

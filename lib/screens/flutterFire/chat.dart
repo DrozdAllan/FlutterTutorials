@@ -28,7 +28,7 @@ class Chat extends StatelessWidget {
 class UsersList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(DatabaseService.usersProvider).when(
+    return ref.watch(UserService.usersProvider).when(
           loading: () => const CircularProgressIndicator(),
           error: (err, stack) => Text('Error: $err'),
           data: (value) {

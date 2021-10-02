@@ -24,7 +24,7 @@ class AuthenticationService {
         throw Exception("No user found");
       } else {
         // if the registration is OK you can get the user uid to create a user doc in firestore
-        await DatabaseService().saveNewUser(user.uid, username);
+        await UserService().saveNewUser(user.uid, username);
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
