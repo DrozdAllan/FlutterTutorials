@@ -27,8 +27,6 @@ class ChatScreen extends StatelessWidget {
       ),
     );
   }
-
-  buildInput() {}
 }
 
 class BuildInput extends StatefulWidget {

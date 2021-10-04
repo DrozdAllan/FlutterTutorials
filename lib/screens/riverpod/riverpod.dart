@@ -67,12 +67,11 @@ class StreamProviderWidget extends ConsumerWidget {
   // from the StreamProvider in tutorialProvider.dart
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<int> counter = ref.watch(streamProvider);
-    return counter.when(
-      data: (counter) => Text(counter.toString()),
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stack) => Text('Error : $error'),
-    );
+    return ref.watch(streamProvider).when(
+          data: (counter) => Text(counter.toString()),
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stack) => Text('Error : $error'),
+        );
   }
 }
 

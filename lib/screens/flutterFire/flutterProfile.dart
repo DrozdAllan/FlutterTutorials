@@ -45,33 +45,32 @@ class FlutterProfile extends StatelessWidget {
 class RiverpodStream extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    AsyncValue<FirestoreUser> firestoreUser =
-        ref.watch(UserService.firestoreUserProvider);
-    return firestoreUser.when(
-      data: (firestoreUser) {
-        return Column(
-          children: [
-            Text('welcome ' + firestoreUser.name),
-            Text('you have ${firestoreUser.ducks} ducks'),
-            ElevatedButton(
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.green)),
-              onPressed: () {
-                UserService().addDuck(firestoreUser.ducks + 1);
-              },
-              child: Text('add a duck'),
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/chat');
-                },
-                child: Text('Go to Chat')),
-          ],
+    return ref.watch(UserService.firestoreUserProvider).when(
+          data: (firestoreUser) {
+            FirestoreUser user = firestoreUser.data()!;
+            return Column(
+              children: [
+                Text('welcome ' + user.name),
+                Text('you have ${user.ducks.toString()} ducks'),
+                ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.green)),
+                  onPressed: () {
+                    UserService().addDuck(user.ducks, 1);
+                  },
+                  child: Text('add 1 duck'),
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/chat');
+                    },
+                    child: Text('Go to Chat')),
+              ],
+            );
+          },
+          loading: () => const CircularProgressIndicator(),
+          error: (error, stack) => Text('Error : $error'),
         );
-      },
-      loading: () => const CircularProgressIndicator(),
-      error: (error, stack) => Text('Error : $error'),
-    );
   }
 }

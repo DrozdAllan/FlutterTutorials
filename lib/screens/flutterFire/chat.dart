@@ -37,12 +37,15 @@ class UsersList extends ConsumerWidget {
               itemCount: value.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: Text(value.elementAt(index).name),
+                  title: Text(value.elementAt(index).data().name),
+                  subtitle: Text(
+                      value.elementAt(index).data().ducks.toString() +
+                          ' ducks'),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
                       '/chatScreen',
-                      arguments: value.elementAt(index).uid,
+                      arguments: value.elementAt(index).data().uid,
                     );
                   },
                 );

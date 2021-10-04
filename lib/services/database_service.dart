@@ -5,43 +5,47 @@ import 'package:mynewapp/models/firestoreConversation.dart';
 import 'package:mynewapp/models/firestoreUser.dart';
 
 class UserService {
-// the collection reference, firestore way of pointing to a noSQL directory
-  static final CollectionReference<Map<String, dynamic>> userCollection =
-      FirebaseFirestore.instance.collection("users");
+// users collection ref, with a FirestoreUser class converter
+  static final usersRef = FirebaseFirestore.instance
+      .collection('users')
+      .withConverter<FirestoreUser>(
+        fromFirestore: (snapshot, _) => FirestoreUser.fromMap(snapshot.data()!),
+        toFirestore: (FirestoreUser firestoreUser, _) => firestoreUser.toMap(),
+      );
 
-  static final firestoreUserProvider = StreamProvider<FirestoreUser>((ref) {
+  static final firestoreUserProvider = StreamProvider((ref) {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
 
-    return userCollection
-        .doc(userID)
-        .snapshots()
-        .map((snap) => FirestoreUser.fromMap(snap.data()));
+    return usersRef.doc(userID).snapshots();
   });
 
   Future<void> saveNewUser(String uid, String username) async {
-    return await userCollection.doc(uid).set({'name': username});
+    return await usersRef.doc(uid).set(FirestoreUser(uid: uid, name: username));
   }
 
-  Future<void> addDuck(int duckNumber) async {
+  Future<void> addDuck(int? previousDucks, int duckNumber) async {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
-    return await userCollection.doc(userID).set({'ducks': duckNumber});
+
+    int totalDucks = duckNumber;
+
+    if (previousDucks != null) {
+      totalDucks = duckNumber + previousDucks;
+    }
+
+    return await usersRef.doc(userID).update({'ducks': totalDucks});
   }
 
   static final usersProvider = FutureProvider((ref) async {
     // retrieve the uid of the current FirebaseAuth User
     String? userID = FirebaseAuth.instance.currentUser?.uid;
     // get the firestore async document snapshot from his uid
-    var currentUser = await userCollection
-        .doc(userID)
-        .get()
-        // translate the Map<String, dynamic>? to a FirestoreUser model
-        .then((value) => FirestoreUser.fromMap(value.data()));
+    var currentUser =
+        await usersRef.doc(userID).get().then((snapshot) => snapshot.data()!);
     // query all the users (all the documents in 'users' collection) except the one with the same name as the currentUser
-    QuerySnapshot<Map<String, dynamic>> users = await userCollection
+    return await usersRef
         .where('name', isNotEqualTo: currentUser.name)
-        .get();
-    // translate the List of document snapshots to an iterable of FirestoreUsers to create a list with listviewBuilder
-    return users.docs.map((snapshot) => FirestoreUsers.fromSnapshot(snapshot));
+        .get()
+        .then((snapshot) => snapshot.docs);
   });
 }
 
@@ -95,7 +99,8 @@ class ConversationService {
         .withConverter<FirestoreMessage>(
             fromFirestore: (snapshot, _) =>
                 FirestoreMessage.fromMap(snapshot.data()!),
-            toFirestore: (FirestoreMessage, _) => FirestoreMessage.toMap())
+            toFirestore: (FirestoreMessage firestoreMessage, _) =>
+                firestoreMessage.toMap())
         .add(FirestoreMessage(
             from: userID,
             to: peerUid,
