@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mynewapp/services/notification_service.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
@@ -7,6 +8,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NotificationService.initialize();
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),

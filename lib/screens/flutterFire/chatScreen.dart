@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:mynewapp/services/database_service.dart';
 
@@ -62,8 +66,7 @@ class _BuildInputState extends State<BuildInput> {
               margin: EdgeInsets.symmetric(horizontal: 1.0),
               child: IconButton(
                 icon: Icon(Icons.image),
-                onPressed: () {},
-// getImage
+                onPressed: getImage,
                 color: Colors.blueGrey,
               ),
             ),
@@ -72,7 +75,7 @@ class _BuildInputState extends State<BuildInput> {
           Flexible(
             child: TextField(
               onSubmitted: (value) {
-                sendMessage(widget.peerUid, messageController.value.text);
+                onSendMessage(widget.peerUid, messageController.value.text);
               },
               style: TextStyle(color: Colors.blueGrey, fontSize: 15.0),
               controller: messageController,
@@ -89,7 +92,7 @@ class _BuildInputState extends State<BuildInput> {
               child: IconButton(
                 icon: Icon(Icons.send),
                 onPressed: () =>
-                    sendMessage(widget.peerUid, messageController.value.text),
+                    onSendMessage(widget.peerUid, messageController.value.text),
                 color: Colors.blueGrey,
               ),
             ),
@@ -100,9 +103,38 @@ class _BuildInputState extends State<BuildInput> {
     );
   }
 
-  void sendMessage(String peerUid, String message) {
+  void onSendMessage(String peerUid, String message) {
     ConversationService.sendMessage(peerUid, message);
     messageController.clear();
+  }
+
+  Future getImage() async {
+    // using ImagePicker library
+    final ImagePicker _picker = ImagePicker();
+    // different sources available in ImageSource
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      uploadFile(image);
+    }
+  }
+
+  Future uploadFile(XFile image) async {
+    try {
+      // creating the directory reference in firebase storage
+      Reference storageRef = FirebaseStorage.instance.ref('chatImages');
+
+      // creating a File object with dart:io package and uploading it to Storage, returning the result
+      var result = await storageRef.child(image.name).putFile(File(image.path));
+      // retrieving an url for the image, to put it in firestore eventually
+      String imageUrl = await result.ref.getDownloadURL();
+      print('the imageUrl is ' + imageUrl);
+      setState(() {
+        onSendMessage(widget.peerUid, imageUrl);
+      });
+    } on FirebaseException catch (e) {
+      // e.g, e.code == 'canceled'
+      print(e);
+    }
   }
 }
 
@@ -133,24 +165,80 @@ class Conversation extends ConsumerWidget {
                           ? MainAxisAlignment.end
                           : MainAxisAlignment.start,
                       children: [
-                        Container(
-                          child: Text(
-                            value.elementAt(index).data,
-                            style: TextStyle(
-                                color: value.elementAt(index).from == peerUid
-                                    ? Colors.black
-                                    : Colors.white),
-                          ),
-                          padding: EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
-                          width: 200.0,
-                          decoration: BoxDecoration(
-                              color: value.elementAt(index).from == peerUid
-                                  ? Colors.grey
-                                  : Colors.blueGrey,
-                              borderRadius: BorderRadius.circular(8.0)),
-                          margin: EdgeInsets.only(
-                              bottom: 10.0, right: 10.0, left: 10.0),
-                        ),
+                        value.elementAt(index).type == 0
+                            ? Container(
+                                child: Text(
+                                  value.elementAt(index).data,
+                                  style: TextStyle(
+                                      color:
+                                          value.elementAt(index).from == peerUid
+                                              ? Colors.black
+                                              : Colors.white),
+                                ),
+                                padding:
+                                    EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 10.0),
+                                width: 200.0,
+                                decoration: BoxDecoration(
+                                    color:
+                                        value.elementAt(index).from == peerUid
+                                            ? Colors.grey
+                                            : Colors.blueGrey,
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                margin: EdgeInsets.only(
+                                    bottom: 10.0, right: 10.0, left: 10.0),
+                              )
+                            : Container(
+                                child: Material(
+                                  child: Image.network(
+                                    value.elementAt(index).data,
+                                    loadingBuilder: (BuildContext context,
+                                        Widget child,
+                                        ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: value.elementAt(index).from ==
+                                                  peerUid
+                                              ? Colors.grey
+                                              : Colors.blueGrey,
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(8.0),
+                                          ),
+                                        ),
+                                        width: 200.0,
+                                        height: 200.0,
+                                        child: Center(
+                                          child:
+                                              const CircularProgressIndicator(),
+                                        ),
+                                      );
+                                    },
+                                    errorBuilder:
+                                        (context, object, stackTrace) {
+                                      return Material(
+                                        child: Image.asset(
+                                          'images/img_not_available.jpeg',
+                                          width: 200.0,
+                                          height: 200.0,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(8.0),
+                                        ),
+                                        clipBehavior: Clip.hardEdge,
+                                      );
+                                    },
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8.0)),
+                                  clipBehavior: Clip.hardEdge,
+                                ),
+                                margin: EdgeInsets.only(
+                                    bottom: 10.0, right: 10.0, left: 10.0),
+                              ),
                       ],
                     ),
                     index == value.length
