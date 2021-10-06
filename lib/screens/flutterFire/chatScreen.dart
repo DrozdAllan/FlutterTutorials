@@ -153,13 +153,20 @@ class Conversation extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: value.length,
               itemBuilder: (BuildContext context, int index) {
-                print(value.elementAt(index).from);
-                print(peerUid);
+                print(value.elementAt(index).timestamp);
                 return Column(
                   crossAxisAlignment: value.elementAt(index).from == peerUid
                       ? CrossAxisAlignment.end
                       : CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      DateFormat('dd MMM kk:mm')
+                          .format(value.elementAt(index).timestamp.toDate()),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12.0,
+                          fontStyle: FontStyle.italic),
+                    ),
                     Row(
                       mainAxisAlignment: value.elementAt(index).from == peerUid
                           ? MainAxisAlignment.end
@@ -241,21 +248,6 @@ class Conversation extends ConsumerWidget {
                               ),
                       ],
                     ),
-                    index == value.length
-                        ? Container(
-                            child: Text(
-                              DateFormat('dd MMM kk:mm').format(
-                                  DateTime.fromMillisecondsSinceEpoch(int.parse(
-                                      value.elementAt(index).timestamp))),
-                              style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12.0,
-                                  fontStyle: FontStyle.italic),
-                            ),
-                            margin:
-                                EdgeInsets.only(left: 15, right: 15, bottom: 5),
-                          )
-                        : Container()
                   ],
                 );
               },

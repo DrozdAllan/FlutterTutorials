@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class FirestoreMessage {
   // type: 0 = text, 1 = image
   final int type;
   final String? from;
   final String to;
   final String data;
-  final String timestamp;
+  final Timestamp timestamp;
 
   FirestoreMessage(
       {required this.type,

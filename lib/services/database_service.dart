@@ -111,6 +111,6 @@ class ConversationService {
             from: userID,
             to: peerUid,
             data: message,
-            timestamp: Timestamp.now().toString()));
+            timestamp: Timestamp.now()));
   }
 }
