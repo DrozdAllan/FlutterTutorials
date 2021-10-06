@@ -1,5 +1,6 @@
 import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  // to try the crash
+//   FirebaseCrashlytics.instance.crash();
   await DuckBox.init();
   runApp(
     ProviderScope(child: MyApp()),
@@ -37,13 +42,15 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Startup Name Generator',
-      theme: myTheme,
-      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-      initialRoute: Home.routeName,
-    );
+    return Builder(builder: (context) {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Startup Name Generator',
+        theme: myTheme,
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+        initialRoute: Home.routeName,
+      );
+    });
   }
 }
 
