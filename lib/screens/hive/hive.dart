@@ -2,10 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:lottie/lottie.dart';
 import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/models/duck.dart';
-import 'dart:developer';
+import 'package:mynewapp/utils/lottieDuck.dart';
 
 class HiveTuto extends StatelessWidget {
   const HiveTuto({Key? key}) : super(key: key);
@@ -35,7 +34,6 @@ class HiveTuto extends StatelessWidget {
                     builder: (context, Box box, _) {
                       // convert the duckBox to a list to make a ListView Builder
                       List<dynamic> ducksList = box.values.toList();
-                      inspect(ducksList);
                       return ListView.builder(
                         itemCount: ducksList.length,
                         itemBuilder: (BuildContext context, int listIndex) {
@@ -113,11 +111,6 @@ class HiveTuto extends StatelessWidget {
                     },
                   ),
                 ),
-          // the simple way
-          //   Lottie.asset('assets/duck.json',
-          //       width: 100, height: 100, fit: BoxFit.fill),
-          // or the stateful widget with AnimationController
-          LottieDuck(),
         ],
       ),
     );
@@ -131,50 +124,6 @@ class HiveTuto extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
         ),
       ],
-    );
-  }
-}
-
-class LottieDuck extends StatefulWidget {
-  const LottieDuck({Key? key}) : super(key: key);
-
-  @override
-  _LottieDuckState createState() => _LottieDuckState();
-}
-
-class _LottieDuckState extends State<LottieDuck> with TickerProviderStateMixin {
-  late final AnimationController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(vsync: this)
-      ..value = 0.1
-      ..addListener(() {
-        setState(() {
-          // Rebuild the widget at each frame to update the "progress" label.
-        });
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Lottie.asset(
-      'assets/duck.json',
-      controller: _controller,
-      onLoaded: (composition) {
-        // Configure the AnimationController with the duration of the
-        // Lottie file and start the animation.
-        _controller
-          ..duration = composition.duration
-          ..forward();
-      },
     );
   }
 }
@@ -215,17 +164,24 @@ class _AddDuckFormState extends State<AddDuckForm> {
               label: Text('Enter duck name'),
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                DuckBox.box?.add(Duck(duckController.value.text, true));
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              LottieDuck(),
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    DuckBox.box?.add(Duck(duckController.value.text, true));
 
-                duckController.clear();
+                    duckController.clear();
 
-                FocusScope.of(context).unfocus();
-              }
-            },
-            child: const Text('Add new duck'),
+                    FocusScope.of(context).unfocus();
+                  }
+                },
+                child: const Text('Add new duck'),
+              ),
+              LottieDuck(),
+            ],
           ),
         ],
       ),

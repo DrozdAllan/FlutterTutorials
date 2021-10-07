@@ -75,7 +75,7 @@ class _BuildInputState extends State<BuildInput> {
           Flexible(
             child: TextField(
               onSubmitted: (value) {
-                onSendMessage(widget.peerUid, messageController.value.text);
+                onSendMessage(widget.peerUid, 0, messageController.value.text);
               },
               style: TextStyle(color: Colors.blueGrey, fontSize: 15.0),
               controller: messageController,
@@ -91,8 +91,8 @@ class _BuildInputState extends State<BuildInput> {
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: IconButton(
                 icon: Icon(Icons.send),
-                onPressed: () =>
-                    onSendMessage(widget.peerUid, messageController.value.text),
+                onPressed: () => onSendMessage(
+                    widget.peerUid, 0, messageController.value.text),
                 color: Colors.blueGrey,
               ),
             ),
@@ -103,8 +103,8 @@ class _BuildInputState extends State<BuildInput> {
     );
   }
 
-  void onSendMessage(String peerUid, String message) {
-    ConversationService.sendMessage(peerUid, message);
+  void onSendMessage(String peerUid, int messageType, String message) {
+    ConversationService.sendMessage(peerUid, messageType, message);
     messageController.clear();
   }
 
@@ -129,7 +129,7 @@ class _BuildInputState extends State<BuildInput> {
       String imageUrl = await result.ref.getDownloadURL();
       print('the imageUrl is ' + imageUrl);
       setState(() {
-        onSendMessage(widget.peerUid, imageUrl);
+        onSendMessage(widget.peerUid, 1, imageUrl);
       });
     } on FirebaseException catch (e) {
       // e.g, e.code == 'canceled'

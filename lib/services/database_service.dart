@@ -82,9 +82,7 @@ class ConversationService {
             querySnapshot.docs.map((e) => FirestoreMessage.fromMap(e.data())));
   });
 
-  static sendMessage(String peerUid, String message) async {
-    print(peerUid + message);
-
+  static sendMessage(String peerUid, int messageType, String message) async {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
     String? conversationId = '';
 
@@ -107,7 +105,7 @@ class ConversationService {
             toFirestore: (FirestoreMessage firestoreMessage, _) =>
                 firestoreMessage.toMap())
         .add(FirestoreMessage(
-            type: 0,
+            type: messageType,
             from: userID,
             to: peerUid,
             data: message,

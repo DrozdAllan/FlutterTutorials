@@ -29,7 +29,10 @@ dependencies:
   flutter_native_splash: ^1.2.4
   fluttertoast: ^8.0.8
   dio: ^4.0.0
+  url_launcher: ^6.0.12
+  material_floating_search_bar: ^0.3.4
   hive: ^2.0.4
+  flutter_auto_form: ^0.3.1
   lottie: ^1.2.1
   hive_flutter: ^1.1.0
   firebase_core: ^1.6.0
@@ -67,8 +70,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/duck.json
-    - assets/food.json
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

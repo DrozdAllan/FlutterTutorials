@@ -21,7 +21,7 @@ ThemeData? myTheme = ThemeData(
     titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
     toolbarTextStyle:
         TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-    toolbarHeight: 30.0,
+    toolbarHeight: 40.0,
   ),
   textTheme: TextTheme(
     bodyText2: TextStyle(

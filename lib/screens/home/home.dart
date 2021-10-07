@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mynewapp/services/notification_service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
   static const routeName = '/';
+  static const _url = 'https://drozdallanportfolio.web.app/';
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +14,17 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await canLaunch(_url)
+                  ? await launch(_url)
+                  : throw 'Could not launch $_url';
+            },
+            icon: Icon(Icons.help),
+            tooltip: 'About',
+          )
+        ],
       ),
       body: ListView(
         children: [
