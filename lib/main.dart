@@ -9,6 +9,7 @@ import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/flutterFire/chat.dart';
 import 'package:mynewapp/screens/flutterFire/chatScreen.dart';
 import 'package:mynewapp/screens/flutterFire/flutterFire.dart';
+import 'package:mynewapp/screens/formBuilderTuto/formBuilderTuto.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
@@ -85,6 +86,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Riverpod());
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
+      case FormBuilderTuto.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => FormBuilderTuto());
       case FlutterFire.routeName: // '/flutterFire'
         return MaterialPageRoute(builder: (context) => FlutterFire());
       case Chat.routeName: // '/flutterFire'

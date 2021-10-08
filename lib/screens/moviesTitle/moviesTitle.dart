@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:mynewapp/api/moviesTitleApi.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MoviesTitle extends StatefulWidget {
@@ -13,7 +12,6 @@ class MoviesTitle extends StatefulWidget {
 }
 
 class _MoviesTitleState extends State<MoviesTitle> {
-  final _formKey = GlobalKey<FormState>();
   final cityController = TextEditingController();
   static const _url =
       'https://mysterious-woodland-51583.herokuapp.com/api/docs';

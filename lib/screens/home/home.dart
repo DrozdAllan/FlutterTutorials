@@ -47,6 +47,12 @@ class Home extends StatelessWidget {
             },
           ),
           ListTile(
+            title: Text('Flutter_form_builder package'),
+            onTap: () {
+              Navigator.pushNamed(context, '/formBuilderTuto');
+            },
+          ),
+          ListTile(
             title: Text('Riverpod state'),
             onTap: () {
               Navigator.pushNamed(context, '/riverpod');
