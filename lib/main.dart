@@ -1,3 +1,4 @@
+import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -36,22 +37,24 @@ Future<void> main() async {
 //   FirebaseCrashlytics.instance.crash();
   await DuckBox.init();
   runApp(
-    ProviderScope(child: MyApp()),
+    EasyDynamicThemeWidget(
+      child: ProviderScope(child: MyApp()),
+    ),
   );
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Startup Name Generator',
-        theme: myTheme,
-        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
-        initialRoute: Home.routeName,
-      );
-    });
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Startup Name Generator',
+      theme: myTheme,
+      darkTheme: myDarkTheme,
+      themeMode: EasyDynamicTheme.of(context).themeMode,
+      onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
+      initialRoute: Home.routeName,
+    );
   }
 }
 

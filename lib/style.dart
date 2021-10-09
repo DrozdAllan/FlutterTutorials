@@ -11,7 +11,7 @@ const Montserra = 'Montserrat';
 
 final Color _mainColor = Colors.teal.shade800;
 
-ThemeData? myTheme = ThemeData(
+ThemeData myTheme = ThemeData(
   brightness: Brightness.light,
   visualDensity: VisualDensity.adaptivePlatformDensity,
   primarySwatch: Colors.cyan,
@@ -21,6 +21,34 @@ ThemeData? myTheme = ThemeData(
     titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
     toolbarTextStyle:
         TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+    toolbarHeight: 40.0,
+  ),
+  textTheme: TextTheme(
+    bodyText2: TextStyle(
+      fontFamily: Montserra,
+      fontWeight: FontWeight.w300,
+      fontSize: BodyTextSize,
+      color: _mainColor,
+    ),
+    headline6: TextStyle(
+      fontFamily: Montserra,
+      fontWeight: FontWeight.w300,
+      fontSize: LargeTextSize,
+      color: Colors.black,
+    ),
+  ),
+);
+
+ThemeData myDarkTheme = ThemeData(
+  brightness: Brightness.dark,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  primarySwatch: Colors.cyan,
+  appBarTheme: AppBarTheme(
+    color: Colors.red,
+    elevation: 0,
+    titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+    toolbarTextStyle:
+        TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
     toolbarHeight: 40.0,
   ),
   textTheme: TextTheme(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mynewapp/utils/flutterAuthForm.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FlutterAuth extends StatefulWidget {
   const FlutterAuth({Key? key}) : super(key: key);
@@ -54,6 +56,22 @@ class _FlutterAuthState extends State<FlutterAuth> {
                   usernameController: _usernameController,
                   mailController: _mailController,
                   passwordController: _passwordController),
+            ),
+            // Builtin buttons contain Email, Google, GoogleDark, Facebook, FacebookNew, GitHub, LinkedIn, Pinterest, Tumblr and Twitter
+            SignInButton(Buttons.Google, onPressed: () {}),
+            // some buttons have a mini version
+            SignInButton(Buttons.Facebook, mini: true, onPressed: () {}),
+            // for custom buttons
+            SignInButtonBuilder(
+              backgroundColor: Colors.blueGrey.shade700,
+              onPressed: () {},
+              text: 'Sign in with Email',
+              icon: Icons.email,
+            ),
+            // font_awesome_flutter icons try
+            IconButton(
+              onPressed: () {},
+              icon: FaIcon(FontAwesomeIcons.gamepad),
             ),
           ],
         ),

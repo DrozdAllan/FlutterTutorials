@@ -2,26 +2,93 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 
-class FormBuilderTuto extends StatelessWidget {
+class FormBuilderTuto extends StatefulWidget {
   const FormBuilderTuto({Key? key}) : super(key: key);
 
   static const routeName = '/formBuilderTuto';
 
   @override
+  State<FormBuilderTuto> createState() => _FormBuilderTutoState();
+}
+
+// list of tabs in the dot_navigation_bar to enum (= const declaration with index)
+enum _SelectedTab { home, favorite, search, person }
+
+class _FormBuilderTutoState extends State<FormBuilderTuto> {
+  var _selectedTab = _SelectedTab.home;
+
+  void _handleIndexChanged(int i) {
+    setState(() {
+      _selectedTab = _SelectedTab.values[i];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // true to show the body behind the navbar
+      extendBody: true,
       appBar: AppBar(
         title: Text('All you can do with flutter_form_builder'),
       ),
       body: ListView(
         children: [
-          Text('Very useful package to display form in many fields'),
+          Text(
+              'Very useful package to display form in many fields, added dot_navigation_bar'),
           Container(
             padding: EdgeInsets.all(12.0),
             child: FormBuilderWidget(),
           )
         ],
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: DotNavigationBar(
+          // enableFloatingNavbar to get a round navbar with padding
+          enableFloatingNavBar: true,
+          margin: EdgeInsets.only(left: 10, right: 10),
+          currentIndex: _SelectedTab.values.indexOf(_selectedTab),
+          dotIndicatorColor: Color.fromRGBO(250, 212, 64, 1.0),
+          unselectedItemColor: Colors.grey[300],
+          backgroundColor: Colors.white,
+          borderRadius: 10,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              //   offset: Offset(10, 10),
+              spreadRadius: 1.0,
+              // blurRadius: 1.5
+            ),
+          ],
+          onTap: _handleIndexChanged,
+          items: [
+            /// Home
+            DotNavigationBarItem(
+              icon: Icon(Icons.home),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            /// Likes
+            DotNavigationBarItem(
+              icon: Icon(Icons.favorite),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            /// Search
+            DotNavigationBarItem(
+              icon: Icon(Icons.search),
+              selectedColor: Color(0xff73544C),
+            ),
+
+            /// Profile
+            DotNavigationBarItem(
+              icon: Icon(Icons.person),
+              selectedColor: Color(0xff73544C),
+            ),
+          ],
+        ),
       ),
     );
   }
