@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _check = false;
+  bool _dark = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +24,15 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),
         actions: [
-          //   EasyDynamicThemeBtn(),
-          EasyDynamicThemeSwitch(),
+          IconButton(
+              onPressed: () {
+                _dark = !_dark;
+                EasyDynamicTheme.of(context)
+                    .changeTheme(dynamic: false, dark: _dark);
+              },
+              icon: _dark ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3)),
+          // an built in switch to quickly toggle dark mode
+          //   EasyDynamicThemeSwitch(),
           SpinKitWave(
             color: Colors.white,
             size: 10.0,
@@ -65,6 +72,12 @@ class _HomeState extends State<Home> {
             title: Text('Flutter_form_builder package'),
             onTap: () {
               Navigator.pushNamed(context, '/formBuilderTuto');
+            },
+          ),
+          ListTile(
+            title: Text('flutter_colorpicker package'),
+            onTap: () {
+              Navigator.pushNamed(context, '/colorPicker');
             },
           ),
           ListTile(

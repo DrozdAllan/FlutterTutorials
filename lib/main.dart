@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
+import 'package:mynewapp/screens/colorPicker/colorPicker.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/flutterFire/chat.dart';
 import 'package:mynewapp/screens/flutterFire/chatScreen.dart';
@@ -87,6 +88,8 @@ class RouteGenerator {
             });
       case Riverpod.routeName: // '/riverpod'
         return MaterialPageRoute(builder: (context) => Riverpod());
+      case ColorPickerTuto.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => ColorPickerTuto());
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case FormBuilderTuto.routeName: // 'formBuilderTuto'
