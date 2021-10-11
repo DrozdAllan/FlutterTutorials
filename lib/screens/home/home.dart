@@ -69,6 +69,18 @@ class _HomeState extends State<Home> {
             },
           ),
           ListTile(
+            title: Text('Shared preferences'),
+            onTap: () {
+              Navigator.pushNamed(context, '/sharedPref');
+            },
+          ),
+          ListTile(
+            title: Text('Camera Demo'),
+            onTap: () {
+              Navigator.pushNamed(context, '/cameraDemo');
+            },
+          ),
+          ListTile(
             title: Text('Flutter_form_builder package'),
             onTap: () {
               Navigator.pushNamed(context, '/formBuilderTuto');
@@ -78,6 +90,12 @@ class _HomeState extends State<Home> {
             title: Text('flutter_colorpicker package'),
             onTap: () {
               Navigator.pushNamed(context, '/colorPicker');
+            },
+          ),
+          ListTile(
+            title: Text('flash package'),
+            onTap: () {
+              Navigator.pushNamed(context, '/flashTuto');
             },
           ),
           ListTile(

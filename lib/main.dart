@@ -6,8 +6,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
+import 'package:mynewapp/screens/cameraDemo/cameraDemo.dart';
 import 'package:mynewapp/screens/colorPicker/colorPicker.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
+import 'package:mynewapp/screens/flashTuto/flashTuto.dart';
 import 'package:mynewapp/screens/flutterFire/chat.dart';
 import 'package:mynewapp/screens/flutterFire/chatScreen.dart';
 import 'package:mynewapp/screens/flutterFire/flutterFire.dart';
@@ -16,9 +18,11 @@ import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
+import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
+import 'package:mynewapp/services/camera_service.dart';
 import 'package:mynewapp/style.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -36,6 +40,9 @@ Future<void> main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   // to try the crash
 //   FirebaseCrashlytics.instance.crash();
+
+  CameraService().init();
+
   await DuckBox.init();
   runApp(
     EasyDynamicThemeWidget(
@@ -90,6 +97,12 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Riverpod());
       case ColorPickerTuto.routeName: // '/riverpod'
         return MaterialPageRoute(builder: (context) => ColorPickerTuto());
+      case FlashTuto.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => FlashTuto());
+      case SharedPreferencesDemo.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => SharedPreferencesDemo());
+      case CameraDemo.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => CameraDemo());
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case FormBuilderTuto.routeName: // 'formBuilderTuto'

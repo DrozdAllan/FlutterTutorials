@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flash/src/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -43,9 +44,11 @@ class HiveTuto extends StatelessWidget {
                             key: Key(duck.name),
                             onDismissed: (direction) {
                               DuckBox.box?.delete(duck.key);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                      content: Text("${duck.name} supprimé")));
+                              context.showSuccessBar(
+                                  content: Text('${duck.name} s\'en va !'));
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //       SnackBar(
+                              //           content: Text("${duck.name} supprimé")));
                             },
                             background: Container(
                               color: Colors.amber,
