@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:easy_dynamic_theme/easy_dynamic_theme.dart';
 import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +23,6 @@ import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dar
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
-import 'package:mynewapp/services/camera_service.dart';
 import 'package:mynewapp/style.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -32,6 +32,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Background message ${message.messageId}');
 }
 
+List<CameraDescription>? cameras;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -40,10 +42,8 @@ Future<void> main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   // to try the crash
 //   FirebaseCrashlytics.instance.crash();
-
-  CameraService().init();
-
   await DuckBox.init();
+  cameras = await availableCameras();
   runApp(
     EasyDynamicThemeWidget(
       child: ProviderScope(child: MyApp()),
