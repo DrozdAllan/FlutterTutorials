@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/screens/cameraDemo/cameraDemo.dart';
+import 'package:mynewapp/screens/cameraDemo/emotionDetector.dart';
+import 'package:mynewapp/screens/cameraDemo/stuffDetector.dart';
 import 'package:mynewapp/screens/colorPicker/colorPicker.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/flashTuto/flashTuto.dart';
@@ -32,7 +34,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Background message ${message.messageId}');
 }
 
-List<CameraDescription>? cameras;
+late List<CameraDescription> cameras;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +45,11 @@ Future<void> main() async {
   // to try the crash
 //   FirebaseCrashlytics.instance.crash();
   await DuckBox.init();
-  cameras = await availableCameras();
+  try {
+    cameras = await availableCameras();
+  } on CameraException catch (e) {
+    print('Error: $e.code\nError Message: $e.message');
+  }
   runApp(
     EasyDynamicThemeWidget(
       child: ProviderScope(child: MyApp()),
@@ -103,6 +109,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => SharedPreferencesDemo());
       case CameraDemo.routeName: // '/riverpod'
         return MaterialPageRoute(builder: (context) => CameraDemo());
+      case EmotionDetector.routeName: // '/riverpod'
+        return MaterialPageRoute(
+            builder: (context) => EmotionDetector(cameras));
+      case StuffDetector.routeName: // '/riverpod'
+        return MaterialPageRoute(builder: (context) => StuffDetector(cameras));
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case FormBuilderTuto.routeName: // 'formBuilderTuto'
