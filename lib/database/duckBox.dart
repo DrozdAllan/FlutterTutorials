@@ -7,8 +7,8 @@ class DuckBox {
 
   static final List<Duck> ducks = [
     Duck('Kilamore', true),
-    Duck('Kalimero', true),
-    Duck('Kalemori', true),
+    Duck('Kalimero', false),
+    Duck('Kalemori', false),
     Duck('Kelomira', true),
   ];
 

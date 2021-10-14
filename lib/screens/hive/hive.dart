@@ -27,93 +27,7 @@ class HiveTuto extends StatelessWidget {
         children: [
           _presentationText(),
           AddDuckForm(),
-          box == null
-              ? Container()
-              : Expanded(
-                  child: ValueListenableBuilder(
-                    valueListenable: box.listenable(),
-                    builder: (context, Box box, _) {
-                      // convert the duckBox to a list to make a ListView Builder
-                      List<dynamic> ducksList = box.values.toList();
-                      return ListView.builder(
-                        itemCount: ducksList.length,
-                        itemBuilder: (BuildContext context, int listIndex) {
-                          // get the duck from his index on the list to easily get the duck's properties (name, key...)
-                          final duck = ducksList.elementAt(listIndex);
-                          return Dismissible(
-                            key: Key(duck.name),
-                            onDismissed: (direction) {
-                              DuckBox.box?.delete(duck.key);
-                              context.showSuccessBar(
-                                  content: Text('${duck.name} s\'en va !'));
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //       SnackBar(
-                              //           content: Text("${duck.name} supprimé")));
-                            },
-                            background: Container(
-                              color: Colors.amber,
-                            ),
-                            child: Card(
-                              margin: EdgeInsets.all(8),
-                              elevation: 8,
-                              child: Row(
-                                children: [
-                                  Hero(
-                                    tag: "imageRecipe" + duck.name,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
-                                      //   imageBuilder: (context, imageProvider) =>
-                                      //       Container(
-                                      //     decoration: BoxDecoration(
-                                      //       image: DecorationImage(
-                                      //         image: imageProvider,
-                                      //         fit: BoxFit.cover,
-                                      //         colorFilter: ColorFilter.mode(
-                                      //             Colors.red,
-                                      //             BlendMode.colorBurn),
-                                      //       ),
-                                      //     ),
-                                      //   ),
-                                      placeholder: (context, url) => Center(
-                                          child: CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      width: 100,
-                                      height: 100,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                          padding:
-                                              const EdgeInsets.only(bottom: 8),
-                                          child: Text(duck.name,
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 20)),
-                                        ),
-                                        Text('Tap for details, Swipe to delete',
-                                            style: TextStyle(
-                                                color: Colors.grey[500],
-                                                fontSize: 16))
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ),
+          box == null ? Container() : DuckList(box: box),
         ],
       ),
     );
@@ -127,6 +41,110 @@ class HiveTuto extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
         ),
       ],
+    );
+  }
+}
+
+class DuckList extends StatefulWidget {
+  const DuckList({
+    Key? key,
+    required this.box,
+  }) : super(key: key);
+
+  final Box box;
+
+  @override
+  State<DuckList> createState() => _DuckListState();
+}
+
+class _DuckListState extends State<DuckList> {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: ValueListenableBuilder(
+        valueListenable: widget.box.listenable(),
+        builder: (context, Box box, _) {
+          // convert the duckBox to a list to make a ListView Builder
+          List<dynamic> ducksList = box.values.toList();
+          return ListView.builder(
+            itemCount: ducksList.length,
+            itemBuilder: (BuildContext context, int listIndex) {
+              // get the duck from his index on the list to easily get the duck's properties (name, key...)
+              final Duck duck = ducksList.elementAt(listIndex);
+              return Dismissible(
+                key: Key(duck.name),
+                onDismissed: (direction) {
+                  DuckBox.box?.delete(duck.key);
+                  context.showSuccessBar(
+                      content: Text('${duck.name} s\'en va !'));
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(
+                  //           content: Text("${duck.name} supprimé")));
+                },
+                background: Container(
+                  color: Colors.amber,
+                ),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/duckDetails',
+                        arguments: listIndex);
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(8),
+                    elevation: 8,
+                    child: Row(
+                      children: [
+                        Hero(
+                          tag: "imageRecipe" + duck.name,
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
+                            //   imageBuilder: (context, imageProvider) => Container(
+                            //     decoration: BoxDecoration(
+                            //       image: DecorationImage(
+                            //         image: imageProvider,
+                            //         fit: BoxFit.cover,
+                            //         colorFilter: ColorFilter.mode(
+                            //             Colors.lightGreen, BlendMode.colorBurn),
+                            //       ),
+                            //     ),
+                            //   ),
+                            placeholder: (context, url) =>
+                                Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                            width: 100,
+                            height: 100,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(8, 5, 5, 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Text(duck.name,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20)),
+                              ),
+                              Text('Tap for details, Swipe to delete',
+                                  style: TextStyle(
+                                      color: Colors.grey[500], fontSize: 16))
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }

@@ -26,7 +26,7 @@ class _CameraState extends State<Camera> {
   void initState() {
     super.initState();
 
-    if (widget.cameras == null || widget.cameras.length < 1) {
+    if (widget.cameras.length < 1) {
       print('No camera is found');
     } else {
       controller = new CameraController(
@@ -112,7 +112,7 @@ class _CameraState extends State<Camera> {
 
   @override
   Widget build(BuildContext context) {
-    if (controller == null || !controller.value.isInitialized) {
+    if (!controller.value.isInitialized) {
       return Container();
     }
 

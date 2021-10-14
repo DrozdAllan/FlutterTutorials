@@ -14,80 +14,116 @@ class PairWords extends StatefulWidget {
 class _PairWordsState extends State<PairWords> {
   final _suggestions = <WordPair>[];
 
+  @override
+  void initState() {
+    super.initState();
+    _suggestions.addAll(generateWordPairs().take(40));
+  }
+
   // the args are on the same widget/page, so you dont have to import them
 //   if you need to import them :
 //   final args =
 //   ModalRoute.of(context)!.settings.arguments as (an object model);
   static var _saved = <WordPair>{};
-  final _biggerFont = const TextStyle(fontSize: 18.0);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('What is PairWords ?'),
-      ),
-      extendBody: true,
-      body: Column(
-        children: [
-          _presentationText(),
-          _buildSuggestions(),
+    return Container(
+      color: Colors.white,
+      child: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Text('Animated AppBar'),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/fav', arguments: _saved);
+                  },
+                  icon: Icon(Icons.hearing_outlined)),
+            ],
+            floating: true,
+            expandedHeight: 200,
+            pinned: false,
+            flexibleSpace: FlexibleSpaceBar(
+                background: FadeInImage.assetNetwork(
+                    fadeInCurve: Curves.bounceIn,
+                    placeholder: 'assets/icon.png',
+                    image:
+                        'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg')
+                //   Image.network(
+                //     'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg',
+                //     fit: BoxFit.cover,
+                //     loadingBuilder: (context, child, loadingProgress) {
+                //       if (loadingProgress == null) {
+                //         return child;
+                //       }
+                //       return Center(
+                //         child: CircularProgressIndicator(),
+                //       );
+                //     },
+                //   ),
+                ),
+          ),
+          SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 4.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => Container(
+                  color: _saved.contains(_suggestions.elementAt(index))
+                      ? Colors.teal[600]
+                      : Colors.teal[200],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        child: Text(
+                          _suggestions.elementAt(index).toString(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 22,
+                              decoration: TextDecoration.none),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            if (_saved
+                                .contains(_suggestions.elementAt(index))) {
+                              _saved.remove(_suggestions.elementAt(index));
+                            } else {
+                              _saved.add(_suggestions.elementAt(index));
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                childCount: 40,
+              )),
+          // SliverFillRemaining(
+          //   child: Center(
+          //     child: Column(
+          //       children: [
+          //         Text('The value blabla'),
+          //         SizedBox(),
+          //         Text('zinzinzouzouz'),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          // SliverList(
+          //     delegate: SliverChildListDelegate([
+          //   for (var i = 1; i <= 10; i++)
+          //     ListTile(
+          //       leading: CircleAvatar(),
+          //       title: Text(i.toString()),
+          //     )
+          // ]))
         ],
       ),
-    );
-  }
-
-  Widget _buildRow(WordPair pair) {
-    final alreadySaved = _saved.contains(pair);
-    return ListTile(
-      title: Text(
-        pair.asPascalCase,
-        style: _biggerFont,
-      ),
-      trailing: Icon(
-        alreadySaved ? Icons.bookmark_added : Icons.bookmark_add,
-        color: alreadySaved ? Colors.green : null,
-      ),
-      onTap: () {
-        setState(() {
-          if (alreadySaved) {
-            _saved.remove(pair);
-          } else {
-            _saved.add(pair);
-          }
-        });
-      },
-    );
-  }
-
-  Widget _buildSuggestions() {
-    return Expanded(
-      child: ListView.builder(itemBuilder: (context, i) {
-        if (i.isOdd) return const Divider();
-
-        final index = i ~/ 2;
-        if (index >= _suggestions.length) {
-          _suggestions.addAll(generateWordPairs().take(9));
-        }
-        return _buildRow(_suggestions[index]);
-      }),
-    );
-  }
-
-  _presentationText() {
-    return Column(
-      children: [
-        Text(
-          'PairWords is a widget that generates a random/infinite List of pairWords with the package english_words. It saves the favored ones in a Set<WordPair> and passes it as an argument to the Favorites screen',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
-        ),
-        ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/fav', arguments: _saved);
-          },
-          child: Text('Go to favorites'),
-        ),
-      ],
     );
   }
 }

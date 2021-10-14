@@ -36,6 +36,12 @@ ThemeData myTheme = ThemeData(
       fontSize: LargeTextSize,
       color: Colors.black,
     ),
+    bodyText1: TextStyle(
+      fontFamily: Montserra,
+      fontWeight: FontWeight.w300,
+      fontSize: BodyTextSize,
+      color: _mainColor,
+    ),
   ),
 );
 
