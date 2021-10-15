@@ -86,19 +86,19 @@ class RouteGenerator {
                 Favorites(favs: settings.arguments as Set<WordPair>),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-              //   var begin = Offset(0.0, 1.0);
-              //   var end = Offset.zero;
-              //   var curve = Curves.ease;
-              //   var tween = Tween(begin: begin, end: end)
-              //       .chain(CurveTween(curve: curve));
-              //   return SlideTransition(
-              //     position: animation.drive(tween),
+              //   return FadeTransition(
+              //     opacity: animation,
               //     child: child,
               //   );
+              var begin = Offset(0.0, 1.0);
+              var end = Offset.zero;
+              var curve = Curves.ease;
+              var tween =
+                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+              return SlideTransition(
+                position: animation.drive(tween),
+                child: child,
+              );
             });
       case Riverpod.routeName: // '/riverpod'
         return MaterialPageRoute(builder: (context) => Riverpod());
@@ -119,9 +119,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case DuckDetails.routeName: // '/hive'
         return MaterialPageRoute(
-            builder: (context) => DuckDetails(
-                  ducksListIndex: settings.arguments as int,
-                ));
+          builder: (context) => DuckDetails(
+            ducksListIndex: settings.arguments as int,
+          ),
+        );
       case FormBuilderTuto.routeName: // 'formBuilderTuto'
         return MaterialPageRoute(builder: (context) => FormBuilderTuto());
       case FlutterFire.routeName: // '/flutterFire'
@@ -130,9 +131,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Chat());
       case ChatScreen.routeName: // '/flutterFire'
         return MaterialPageRoute(
-            builder: (context) => ChatScreen(
-                  peerUid: settings.arguments,
-                ));
+          builder: (context) => ChatScreen(
+            peerUid: settings.arguments,
+          ),
+        );
       case UserApiTest.routeName: // '/userApiTest'
         return MaterialPageRoute(builder: (context) => UserApiTest());
       case MoviesTitle.routeName: // '/moviesTitle'

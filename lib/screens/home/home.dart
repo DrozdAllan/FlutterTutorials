@@ -24,27 +24,36 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),
         actions: [
-          IconButton(
-              onPressed: () {
-                _dark = !_dark;
-                EasyDynamicTheme.of(context)
-                    .changeTheme(dynamic: false, dark: _dark);
-              },
-              icon: _dark ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3)),
+          Transform.rotate(
+            angle: -12.0,
+            child: IconButton(
+                onPressed: () {
+                  _dark = !_dark;
+                  EasyDynamicTheme.of(context)
+                      .changeTheme(dynamic: false, dark: _dark);
+                },
+                icon: _dark ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3)),
+          ),
           // an built in switch to quickly toggle dark mode
           //   EasyDynamicThemeSwitch(),
-          SpinKitWave(
-            color: Colors.white,
-            size: 10.0,
+          Transform.scale(
+            scale: 2.0,
+            child: SpinKitWave(
+              color: Colors.white,
+              size: 10.0,
+            ),
           ),
-          IconButton(
-            onPressed: () async {
-              await canLaunch(Home._url)
-                  ? await launch(Home._url)
-                  : throw 'Could not launch ${Home._url}';
-            },
-            icon: Icon(Icons.help),
-            tooltip: 'About',
+          Transform.translate(
+            offset: Offset(-5, -10),
+            child: IconButton(
+              onPressed: () async {
+                await canLaunch(Home._url)
+                    ? await launch(Home._url)
+                    : throw 'Could not launch ${Home._url}';
+              },
+              icon: Icon(Icons.help),
+              tooltip: 'About',
+            ),
           )
         ],
       ),

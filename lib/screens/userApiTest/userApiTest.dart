@@ -39,7 +39,7 @@ class _UserApiTestState extends State<UserApiTest> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Image.network(userData.avatar),
-                        SizedBox(height: 8.0),
+                        SizedBox(height: 10.0),
                         Text(
                           '${userInfo.data.firstName} ${userInfo.data.lastName}',
                           style: TextStyle(fontSize: 16.0),

@@ -3,6 +3,7 @@ import 'package:flash/src/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mynewapp/database/duckBox.dart';
+import 'package:mynewapp/style.dart';
 
 class DuckDetails extends StatefulWidget {
   final int ducksListIndex;
@@ -63,14 +64,17 @@ class _DuckDetailsState extends State<DuckDetails> {
                                 children: [
                                   Hero(
                                     tag: "imageRecipe" + duck.name,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
-                                      placeholder: (context, url) => Center(
-                                          child: CircularProgressIndicator()),
-                                      errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
-                                      fit: BoxFit.cover,
+                                    child: ClipPath(
+                                      clipper: MyClipper(),
+                                      child: CachedNetworkImage(
+                                        imageUrl:
+                                            'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
+                                        placeholder: (context, url) => Center(
+                                            child: CircularProgressIndicator()),
+                                        errorWidget: (context, url, error) =>
+                                            Icon(Icons.error),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                   Positioned(

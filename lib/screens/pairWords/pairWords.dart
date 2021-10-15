@@ -65,44 +65,43 @@ class _PairWordsState extends State<PairWords> {
                 ),
           ),
           SliverGrid(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200.0,
-                mainAxisSpacing: 10.0,
-                crossAxisSpacing: 10.0,
-                childAspectRatio: 4.0,
-              ),
-              delegate: SliverChildBuilderDelegate(
-                (context, index) => Container(
-                  color: _saved.contains(_suggestions.elementAt(index))
-                      ? Colors.teal[600]
-                      : Colors.teal[200],
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GestureDetector(
-                        child: Text(
-                          _suggestions.elementAt(index).toString(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              decoration: TextDecoration.none),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            if (_saved
-                                .contains(_suggestions.elementAt(index))) {
-                              _saved.remove(_suggestions.elementAt(index));
-                            } else {
-                              _saved.add(_suggestions.elementAt(index));
-                            }
-                          });
-                        },
-                      ),
-                    ],
+            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent: 200.0,
+              mainAxisSpacing: 10.0,
+              crossAxisSpacing: 10.0,
+              childAspectRatio: 4.0,
+            ),
+            delegate: SliverChildBuilderDelegate(
+              (context, index) => GestureDetector(
+                onTap: () {
+                  setState(() {
+                    if (_saved.contains(_suggestions.elementAt(index))) {
+                      _saved.remove(_suggestions.elementAt(index));
+                    } else {
+                      _saved.add(_suggestions.elementAt(index));
+                    }
+                  });
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    color: _saved.contains(_suggestions.elementAt(index))
+                        ? Colors.teal[600]
+                        : Colors.teal[200],
+                    child: Text(
+                      _suggestions.elementAt(index).toString(),
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 22,
+                          decoration: TextDecoration.none),
+                    ),
                   ),
                 ),
-                childCount: 40,
-              )),
+              ),
+              childCount: 40,
+            ),
+          ),
           // SliverFillRemaining(
           //   child: Center(
           //     child: Column(
