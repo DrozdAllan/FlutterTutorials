@@ -57,7 +57,10 @@ class _HomeState extends State<Home> {
           )
         ],
       ),
-      body: ListView(
+      body: GridView.count(
+        childAspectRatio: 3,
+        crossAxisCount:
+            MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
         children: [
           ListTile(
             title: Text('PairWords'),

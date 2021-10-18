@@ -39,7 +39,44 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
         title: const Text("SharedPreferences Demo"),
       ),
       body: Center(
-          child: FutureBuilder<int>(
+          child: Column(
+        children: [
+          Draggable<String>(
+            // axis: Axis.vertical,
+            // Data is the value this Draggable stores.
+            data: 'green',
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: ColoredBox(
+                color: Colors.cyan,
+                child: Text('cyan'),
+              ),
+            ),
+            childWhenDragging: SizedBox(
+              height: 100,
+              width: 100,
+              child: ColoredBox(
+                color: Colors.blue,
+                child: Text('blue'),
+              ),
+            ),
+            feedback: SizedBox(
+              height: 100,
+              width: 100,
+              child: ColoredBox(
+                color: Colors.green,
+                child: Text(
+                  'green',
+                  style: TextStyle(
+                      decoration: TextDecoration.none,
+                      fontSize: 14,
+                      color: Colors.black),
+                ),
+              ),
+            ),
+          ),
+          FutureBuilder<int>(
               future: _counter,
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 switch (snapshot.connectionState) {
@@ -55,7 +92,30 @@ class SharedPreferencesDemoState extends State<SharedPreferencesDemo> {
                       );
                     }
                 }
-              })),
+              }),
+          DragTarget(
+            builder: (context, candidateData, rejectedData) {
+              return candidateData.length > 0
+                  ? SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: ColoredBox(
+                        color: Colors.orange,
+                        child: Text('orange'),
+                      ),
+                    )
+                  : SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: ColoredBox(
+                        color: Colors.red,
+                        child: Text('red'),
+                      ),
+                    );
+            },
+          ),
+        ],
+      )),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',

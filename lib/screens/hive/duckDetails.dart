@@ -1,5 +1,6 @@
+import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flash/src/flash_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mynewapp/database/duckBox.dart';
@@ -53,20 +54,21 @@ class _DuckDetailsState extends State<DuckDetails> {
                     itemBuilder: (BuildContext context, int listIndex) {
                       // get the duck from his index on the list to easily get the duck's properties (name, key...)
                       final duck = ducksList.elementAt(listIndex);
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Card(
-                            margin: EdgeInsets.fromLTRB(30, 30, 30, 400),
-                            elevation: 15,
-                            child: Column(children: [
+                      return SingleChildScrollView(
+                        child: Card(
+                          margin: EdgeInsets.all(12),
+                          elevation: 15,
+                          child: Column(
+                            children: [
                               Stack(
+                                fit: StackFit.loose,
                                 children: [
                                   Hero(
                                     tag: "imageRecipe" + duck.name,
                                     child: ClipPath(
                                       clipper: MyClipper(),
                                       child: CachedNetworkImage(
+                                        width: 450,
                                         imageUrl:
                                             'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
                                         placeholder: (context, url) => Center(
@@ -94,40 +96,36 @@ class _DuckDetailsState extends State<DuckDetails> {
                                   ),
                                 ],
                               ),
-                              Center(
-                                child: Column(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.only(bottom: 8),
-                                      child: Text(duck.name,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 20)),
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          'Status of this species : ',
-                                          style: TextStyle(
-                                              color: Colors.grey[500],
-                                              fontSize: 16),
-                                        ),
-                                        Text(
-                                          duck.isExtinct ? 'exctinct' : 'alive',
-                                          style: TextStyle(
-                                              color: Colors.grey[850],
-                                              fontSize: 16),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                              Column(
+                                children: [
+                                  Container(
+                                    child: Text(duck.name,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20)),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Status of this species : ',
+                                        style: TextStyle(
+                                            color: Colors.grey[500],
+                                            fontSize: 16),
+                                      ),
+                                      Text(
+                                        duck.isExtinct ? 'exctinct' : 'alive',
+                                        style: TextStyle(
+                                            color: Colors.grey[850],
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ]),
+                            ],
                           ),
-                        ],
+                        ),
                       );
                     },
                   );
