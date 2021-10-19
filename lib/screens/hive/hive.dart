@@ -38,7 +38,7 @@ class HiveTuto extends StatelessWidget {
       children: [
         Text(
           'Hive is a local NoSQL key-value database handler. These are the ducks from the hive database',
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 18.0),
+          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14.0),
         ),
       ],
     );
@@ -90,7 +90,7 @@ class _DuckListState extends State<DuckList> {
                         arguments: listIndex);
                   },
                   child: Card(
-                    margin: EdgeInsets.all(8),
+                    margin: EdgeInsets.fromLTRB(0, 8, 0, 8),
                     elevation: 8,
                     child: Row(
                       children: [

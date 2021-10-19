@@ -14,28 +14,49 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
-  bool _dark = false;
+class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  bool isPlaying = false;
+
+  bool showMessage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 450));
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     NotificationService.initialize();
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),
         actions: [
           Transform.rotate(
             angle: -12.0,
-            child: IconButton(
-                onPressed: () {
-                  _dark = !_dark;
-                  EasyDynamicTheme.of(context)
-                      .changeTheme(dynamic: false, dark: _dark);
-                },
-                icon: _dark ? Icon(Icons.wb_sunny) : Icon(Icons.brightness_3)),
+            child: AnimatedSwitcher(
+              transitionBuilder: (child, animation) => RotationTransition(
+                turns: animation,
+                child: child,
+              ),
+              duration: Duration(seconds: 1),
+              child: Theme.of(context).brightness == Brightness.dark
+                  ? LightButtonIcon()
+                  : DarkButtonIcon(),
+
+              // an built in switch to quickly toggle dark mode
+              //   EasyDynamicThemeSwitch(),
+            ),
           ),
-          // an built in switch to quickly toggle dark mode
-          //   EasyDynamicThemeSwitch(),
           Transform.scale(
             scale: 2.0,
             child: SpinKitWave(
@@ -99,7 +120,18 @@ class _HomeState extends State<Home> {
             },
           ),
           ListTile(
-            title: Text('flutter_colorpicker package'),
+            title: RichText(
+              text: TextSpan(
+                style: TextStyle(color: Colors.cyan),
+                children: [
+                  TextSpan(text: 'flutter_'),
+                  TextSpan(
+                      text: 'colorpicker',
+                      style: TextStyle(color: Colors.green, fontSize: 24)),
+                  TextSpan(text: ' package'),
+                ],
+              ),
+            ),
             onTap: () {
               Navigator.pushNamed(context, '/colorPicker');
             },
@@ -122,8 +154,79 @@ class _HomeState extends State<Home> {
               Navigator.pushNamed(context, '/flutterFire');
             },
           ),
+          IconButton(
+            icon: AnimatedIcon(
+                icon: AnimatedIcons.arrow_menu, progress: _animationController),
+            onPressed: () {
+              setState(() {
+                isPlaying = !isPlaying;
+                isPlaying
+                    ? _animationController.forward()
+                    : _animationController.reverse();
+              });
+            },
+          ),
+          Placeholder(
+              // fallbackHeight: 100,
+              // fallbackWidth: 75,
+              ),
+          GestureDetector(
+            child: Stack(
+              // whether it runs out of bounds or get clipped
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(
+                  bottom: 25,
+                  left: 75,
+                  child: Text('zinzin'),
+                ),
+                AnimatedPositioned(
+                    right: showMessage ? 0 : 75,
+                    top: 25,
+                    child: Container(
+                      color: Colors.blue,
+                      child: const Center(child: Text('Tap me')),
+                    ),
+                    duration: Duration(seconds: 1),
+                    curve: Curves.fastOutSlowIn),
+              ],
+            ),
+            onTap: () {
+              setState(() {
+                showMessage = !showMessage;
+              });
+            },
+          ),
         ],
       ),
+    );
+  }
+}
+
+class DarkButtonIcon extends StatelessWidget {
+  const DarkButtonIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        EasyDynamicTheme.of(context).changeTheme(dynamic: false, dark: true);
+      },
+      icon: Icon(Icons.brightness_3),
+    );
+  }
+}
+
+class LightButtonIcon extends StatelessWidget {
+  const LightButtonIcon({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        EasyDynamicTheme.of(context).changeTheme(dynamic: false, dark: false);
+      },
+      icon: Icon(Icons.wb_sunny),
     );
   }
 }

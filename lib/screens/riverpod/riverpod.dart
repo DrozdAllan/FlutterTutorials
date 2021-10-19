@@ -47,18 +47,18 @@ class StateProviderWidget extends ConsumerWidget {
     final notifier = ref.read(myController.notifier);
 
     return Expanded(
-      child: ListView.builder(
-          itemCount: controller.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              child: ListTile(
-                  title: Text(controller.elementAt(index)),
-                  trailing: Icon(Icons.delete),
-                  onTap: () {
-                    notifier.removePair(controller.elementAt(index));
-                  }),
-            );
-          }),
+      child: ListView.separated(
+        itemCount: controller.length,
+        itemBuilder: (BuildContext context, int index) => Container(
+          child: ListTile(
+              title: Text(controller.elementAt(index)),
+              trailing: Icon(Icons.delete),
+              onTap: () {
+                notifier.removePair(controller.elementAt(index));
+              }),
+        ),
+        separatorBuilder: (context, index) => Divider(),
+      ),
     );
   }
 }

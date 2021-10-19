@@ -45,6 +45,7 @@ class _FormBuilderTutoState extends State<FormBuilderTuto> {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(bottom: 10),
+        // to use with an IndexedStack widget
         child: DotNavigationBar(
           // enableFloatingNavbar to get a round navbar with padding
           enableFloatingNavBar: true,

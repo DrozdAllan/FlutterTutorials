@@ -54,76 +54,92 @@ class _DuckDetailsState extends State<DuckDetails> {
                     itemBuilder: (BuildContext context, int listIndex) {
                       // get the duck from his index on the list to easily get the duck's properties (name, key...)
                       final duck = ducksList.elementAt(listIndex);
-                      return SingleChildScrollView(
-                        child: Card(
-                          margin: EdgeInsets.all(12),
-                          elevation: 15,
-                          child: Column(
-                            children: [
-                              Stack(
-                                fit: StackFit.loose,
-                                children: [
-                                  Hero(
-                                    tag: "imageRecipe" + duck.name,
-                                    child: ClipPath(
-                                      clipper: MyClipper(),
-                                      child: CachedNetworkImage(
-                                        width: 450,
-                                        imageUrl:
-                                            'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
-                                        placeholder: (context, url) => Center(
-                                            child: CircularProgressIndicator()),
-                                        errorWidget: (context, url, error) =>
-                                            Icon(Icons.error),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 100,
-                                    child: Icon(
-                                      Icons.arrow_back,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  Positioned(
-                                    top: 100,
-                                    right: 0,
-                                    child: Icon(
-                                      Icons.arrow_forward,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Container(
-                                    child: Text(duck.name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20)),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                      return Container(
+                        child:
+                            // AspectRatio(
+                            //   aspectRatio: MediaQuery.of(context).orientation ==
+                            //           Orientation.portrait
+                            //       ? 6 / 7
+                            //       : 17 / 7.5,
+                            FractionallySizedBox(
+                          heightFactor: 1,
+                          child: Card(
+                            margin: EdgeInsets.all(12),
+                            elevation: 15,
+                            child: Stack(
+                              children: [
+                                Container(
+                                  color: Colors.black87,
+                                  child: Column(
                                     children: [
-                                      Text(
-                                        'Status of this species : ',
-                                        style: TextStyle(
-                                            color: Colors.grey[500],
-                                            fontSize: 16),
+                                      Hero(
+                                        tag: "imageRecipe" + duck.name,
+                                        child: ClipPath(
+                                          clipper: MyClipper(),
+                                          child: CachedNetworkImage(
+                                            height: 275,
+                                            imageUrl:
+                                                'https://www.wgoqatar.com/wp-content/uploads/2020/02/951871_highres-780x470.jpg',
+                                            placeholder: (context, url) => Center(
+                                                child:
+                                                    CircularProgressIndicator()),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Icon(Icons.error),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                       ),
-                                      Text(
-                                        duck.isExtinct ? 'exctinct' : 'alive',
-                                        style: TextStyle(
-                                            color: Colors.grey[850],
-                                            fontSize: 16),
+                                      Column(
+                                        children: [
+                                          Container(
+                                            child: Text(duck.name,
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 20)),
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                'Status of this species : ',
+                                                style: TextStyle(
+                                                    color: Colors.grey[300],
+                                                    fontSize: 16),
+                                              ),
+                                              Text(
+                                                duck.isExtinct
+                                                    ? 'exctinct'
+                                                    : 'alive',
+                                                style: TextStyle(
+                                                    color: Colors.grey[100],
+                                                    fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                Positioned(
+                                  top: 250,
+                                  child: Icon(
+                                    Icons.arrow_back,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                Positioned(
+                                  top: 250,
+                                  right: 0,
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
