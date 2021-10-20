@@ -198,6 +198,9 @@ class Conversation extends ConsumerWidget {
                                 child: Material(
                                   child: Image.network(
                                     value.elementAt(index).data,
+                                    width: 200.0,
+                                    height: 200.0,
+                                    fit: BoxFit.cover,
                                     loadingBuilder: (BuildContext context,
                                         Widget child,
                                         ImageChunkEvent? loadingProgress) {
@@ -235,9 +238,6 @@ class Conversation extends ConsumerWidget {
                                         clipBehavior: Clip.hardEdge,
                                       );
                                     },
-                                    width: 200.0,
-                                    height: 200.0,
-                                    fit: BoxFit.cover,
                                   ),
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(8.0)),

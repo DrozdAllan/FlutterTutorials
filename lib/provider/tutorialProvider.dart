@@ -18,14 +18,13 @@ final streamProvider = StreamProvider.autoDispose<int>((ref) async* {
   int i = 0;
   while (i < 10) {
     await Future.delayed(Duration(seconds: 2));
-    print(i);
     yield i++;
   }
 });
 
 // Complex provider, needs a StateNotifierProvider (aka a Controller) that returns a StateNotifier class
-final myController = StateNotifierProvider.autoDispose<MyNotifier, Set<String>>(
-    (ref) => MyNotifier());
+final myController =
+    StateNotifierProvider<MyNotifier, Set<String>>((ref) => MyNotifier());
 
 class MyNotifier extends StateNotifier<Set<String>> {
   MyNotifier() : super(_pairWords);

@@ -22,6 +22,7 @@ class Riverpod extends StatelessWidget {
           FutureProviderWidget(),
           StreamProviderWidget(),
           StateProviderWidget(),
+          DataTabla(),
         ],
       ),
     );
@@ -39,6 +40,32 @@ class Riverpod extends StatelessWidget {
   }
 }
 
+class DataTabla extends StatelessWidget {
+  const DataTabla({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DataTable(
+      sortColumnIndex: 0,
+      sortAscending: true,
+      columns: [
+        DataColumn(label: Text('Name')),
+        DataColumn(label: Text('Year'), numeric: true),
+      ],
+      rows: [
+        DataRow(cells: [
+          DataCell(Text('Dash')),
+          DataCell(Text('2018')),
+        ], selected: true),
+        DataRow(cells: [
+          DataCell(Text('Gopher'), showEditIcon: true),
+          DataCell(Text('2009'), placeholder: true),
+        ]),
+      ],
+    );
+  }
+}
+
 class StateProviderWidget extends ConsumerWidget {
   // from the StateNotifierProvider(Controller) and the StateNotifier in tutorialProvider.dart
   @override
@@ -51,11 +78,20 @@ class StateProviderWidget extends ConsumerWidget {
         itemCount: controller.length,
         itemBuilder: (BuildContext context, int index) => Container(
           child: ListTile(
-              title: Text(controller.elementAt(index)),
-              trailing: Icon(Icons.delete),
-              onTap: () {
+            title: SelectableText(
+              controller.elementAt(index),
+              showCursor: true,
+              cursorWidth: 5,
+              cursorColor: Colors.green,
+              cursorRadius: Radius.circular(5),
+            ),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () {
                 notifier.removePair(controller.elementAt(index));
-              }),
+              },
+            ),
+          ),
         ),
         separatorBuilder: (context, index) => Divider(),
       ),

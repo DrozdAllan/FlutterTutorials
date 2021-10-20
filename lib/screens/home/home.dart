@@ -20,9 +20,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   bool showMessage = false;
 
+  late List<bool> _selections;
+
   @override
   void initState() {
     super.initState();
+    _selections = List.generate(3, (_) => false);
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 450));
   }
@@ -36,27 +39,50 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     NotificationService.initialize();
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome to Flutter Tutorials'),
         actions: [
-          Transform.rotate(
-            angle: -12.0,
-            child: AnimatedSwitcher(
-              transitionBuilder: (child, animation) => RotationTransition(
-                turns: animation,
-                child: child,
-              ),
-              duration: Duration(seconds: 1),
-              child: Theme.of(context).brightness == Brightness.dark
-                  ? LightButtonIcon()
-                  : DarkButtonIcon(),
-
-              // an built in switch to quickly toggle dark mode
-              //   EasyDynamicThemeSwitch(),
-            ),
+          AnimatedCrossFade(
+            firstChild: LightButtonIcon(),
+            secondChild: DarkButtonIcon(),
+            crossFadeState: Theme.of(context).brightness == Brightness.dark
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            duration: Duration(seconds: 1),
+            sizeCurve: Curves.bounceOut,
+            layoutBuilder:
+                (topChild, topChildKey, bottomChild, bottomChildKey) {
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  Positioned(
+                    child: bottomChild,
+                    key: bottomChildKey,
+                    bottom: 0,
+                    top: 0,
+                  ),
+                  Positioned(child: topChild, key: topChildKey),
+                ],
+              );
+            },
           ),
+          //   Transform.rotate(
+          //     angle: -12.0,
+          //     child: AnimatedSwitcher(
+          //       transitionBuilder: (child, animation) => RotationTransition(
+          //         turns: animation,
+          //         child: child,
+          //       ),
+          //       duration: Duration(seconds: 1),
+          //       child: Theme.of(context).brightness == Brightness.dark
+          //           ? LightButtonIcon()
+          //           : DarkButtonIcon(),
+
+          //     ),
+          //   ),
+          // an built in switch to quickly toggle dark mode
+          //   EasyDynamicThemeSwitch(),
           Transform.scale(
             scale: 2.0,
             child: SpinKitWave(
@@ -166,10 +192,14 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               });
             },
           ),
-          Placeholder(
-              // fallbackHeight: 100,
-              // fallbackWidth: 75,
-              ),
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(Colors.yellow, BlendMode.hue),
+            child: Placeholder(
+                //   color: Colors.green,
+                // fallbackHeight: 100,
+                // fallbackWidth: 75,
+                ),
+          ),
           GestureDetector(
             child: Stack(
               // whether it runs out of bounds or get clipped
@@ -197,6 +227,29 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               });
             },
           ),
+          ToggleButtons(
+            children: [
+              Icon(Icons.baby_changing_station),
+              Icon(Icons.kayaking),
+              Icon(Icons.gamepad),
+            ],
+            isSelected: _selections,
+            onPressed: (int index) {
+              setState(() {
+                _selections[index] = !_selections[index];
+              });
+            },
+            color: Colors.green,
+            selectedColor: Colors.red,
+            fillColor: Colors.yellow,
+            splashColor: Colors.purple,
+            highlightColor: Colors.pink,
+            selectedBorderColor: Colors.cyan,
+            // renderBorder: false,
+            borderRadius: BorderRadius.circular(30),
+            borderWidth: 5,
+            borderColor: Colors.orange,
+          )
         ],
       ),
     );
@@ -212,7 +265,10 @@ class DarkButtonIcon extends StatelessWidget {
       onPressed: () {
         EasyDynamicTheme.of(context).changeTheme(dynamic: false, dark: true);
       },
-      icon: Icon(Icons.brightness_3),
+      icon: Icon(
+        Icons.brightness_3,
+        // size: 14,
+      ),
     );
   }
 }
@@ -226,7 +282,10 @@ class LightButtonIcon extends StatelessWidget {
       onPressed: () {
         EasyDynamicTheme.of(context).changeTheme(dynamic: false, dark: false);
       },
-      icon: Icon(Icons.wb_sunny),
+      icon: Icon(
+        Icons.wb_sunny,
+        // size: 14,
+      ),
     );
   }
 }
