@@ -18,7 +18,9 @@ class FlutterFire extends ConsumerWidget {
               return FlutterProfile();
             }
           },
-          loading: () => const CircularProgressIndicator(),
+          loading: () => const CircularProgressIndicator(
+            strokeWidth: 2,
+          ),
           error: (error, stack) => Text('Error : $error'),
         );
   }

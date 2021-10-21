@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mynewapp/api/userApi.dart';
 import 'package:mynewapp/models/apiUser.dart';
+import 'dart:ui';
 
 class UserApiTest extends StatefulWidget {
   static const routeName = '/userApiTest';
@@ -38,7 +39,12 @@ class _UserApiTestState extends State<UserApiTest> {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Image.network(userData.avatar),
+                        ImageFiltered(
+                          imageFilter: ImageFilter.blur(sigmaX: 9),
+                          child: ClipOval(
+                              clipper: _MyCustomClipper(),
+                              child: Image.network(userData.avatar)),
+                        ),
                         SizedBox(height: 10.0),
                         Text(
                           '${userInfo.data.firstName} ${userInfo.data.lastName}',
@@ -80,5 +86,17 @@ class _UserApiTestState extends State<UserApiTest> {
         ),
       ],
     );
+  }
+}
+
+class _MyCustomClipper extends CustomClipper<Rect> {
+  @override
+  Rect getClip(Size size) {
+    return Rect.fromLTWH(0, 0, 200, 100);
+  }
+
+  @override
+  bool shouldReclip(oldClipper) {
+    return false;
   }
 }

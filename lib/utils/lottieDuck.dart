@@ -66,11 +66,17 @@ class _LottieDuckState extends State<LottieDuck>
   }
 }
 
-Widget duckToast = Container(
-  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.circular(25.0),
-    color: Colors.yellow,
+Widget duckToast = PhysicalModel(
+  color: Colors.black,
+  elevation: 8.0,
+//   borderRadius: BorderRadius.circular(45),
+  shape: BoxShape.circle,
+  child: Container(
+    padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(25.0),
+      color: Colors.yellow,
+    ),
+    child: Text("Coin !"),
   ),
-  child: Text("Coin !"),
 );

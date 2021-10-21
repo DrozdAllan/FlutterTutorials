@@ -93,7 +93,13 @@ class StateProviderWidget extends ConsumerWidget {
             ),
           ),
         ),
-        separatorBuilder: (context, index) => Divider(),
+        separatorBuilder: (context, index) => Divider(
+          height: 50,
+          thickness: 4,
+          color: Colors.purple,
+          indent: 20,
+          endIndent: 20,
+        ),
       ),
     );
   }

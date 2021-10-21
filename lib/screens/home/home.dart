@@ -67,20 +67,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               );
             },
           ),
-          //   Transform.rotate(
-          //     angle: -12.0,
-          //     child: AnimatedSwitcher(
-          //       transitionBuilder: (child, animation) => RotationTransition(
-          //         turns: animation,
-          //         child: child,
-          //       ),
-          //       duration: Duration(seconds: 1),
-          //       child: Theme.of(context).brightness == Brightness.dark
-          //           ? LightButtonIcon()
-          //           : DarkButtonIcon(),
-
-          //     ),
-          //   ),
           // an built in switch to quickly toggle dark mode
           //   EasyDynamicThemeSwitch(),
           Transform.scale(
@@ -90,24 +76,46 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               size: 10.0,
             ),
           ),
-          Transform.translate(
-            offset: Offset(-5, -10),
-            child: IconButton(
-              onPressed: () async {
-                await canLaunch(Home._url)
-                    ? await launch(Home._url)
-                    : throw 'Could not launch ${Home._url}';
-              },
-              icon: Icon(Icons.help),
-              tooltip: 'About',
-            ),
-          )
+          IconButton(
+            onPressed: () {
+              showAboutDialog(
+                context: context,
+                applicationName: 'Flutter Tutorials',
+                applicationVersion: '0.2.1',
+                applicationIcon: Image.asset(
+                  'assets/icon.png',
+                  width: 25,
+                  height: 25,
+                ),
+                applicationLegalese:
+                    'This application is developed by Allan Drozd on Flutter 2.5.3',
+                children: [
+                  GestureDetector(
+                    child: Text(
+                      'Visit Allan Drozd Website',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.blue),
+                    ),
+                    onTap: () async {
+                      await canLaunch(Home._url)
+                          ? await launch(Home._url)
+                          : throw 'Could not launch ${Home._url}';
+                    },
+                  ),
+                ],
+              );
+            },
+            icon: Icon(Icons.help),
+          ),
         ],
       ),
       body: GridView.count(
         childAspectRatio: 3,
         crossAxisCount:
             MediaQuery.of(context).orientation == Orientation.portrait ? 2 : 3,
+        mainAxisSpacing: 20.0,
+        crossAxisSpacing: 30.0,
         children: [
           ListTile(
             title: Text('PairWords'),
@@ -178,6 +186,30 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             title: Text('FlutterFire'),
             onTap: () {
               Navigator.pushNamed(context, '/flutterFire');
+            },
+          ),
+          ListTile(
+            title: Text('TabController & TabBar'),
+            onTap: () {
+              Navigator.pushNamed(context, '/tab');
+            },
+          ),
+          ListTile(
+            title: Text('Drawer Demo'),
+            onTap: () {
+              Navigator.pushNamed(context, '/drawer');
+            },
+          ),
+          ListTile(
+            title: Text('Location Package'),
+            onTap: () {
+              Navigator.pushNamed(context, '/location');
+            },
+          ),
+          ListTile(
+            title: Text('Slidable Demo'),
+            onTap: () {
+              Navigator.pushNamed(context, '/slidable');
             },
           ),
           IconButton(

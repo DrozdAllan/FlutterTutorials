@@ -77,7 +77,7 @@ class _DuckListState extends State<DuckList> {
                   DuckBox.box?.delete(duck.key);
                   context.showSuccessBar(
                       content: Text('${duck.name} s\'en va !'));
-                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  // ScaffoldMessenger.of(context).showSnackBar(
                   //       SnackBar(
                   //           content: Text("${duck.name} supprimé")));
                 },

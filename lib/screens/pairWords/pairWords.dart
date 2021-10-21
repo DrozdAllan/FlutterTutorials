@@ -44,25 +44,21 @@ class _PairWordsState extends State<PairWords> {
             floating: true,
             expandedHeight: 200,
             pinned: false,
+            stretch: true,
+            // onStretchTrigger: () {}, to trigger functions on stretch like refreshing a list content
             flexibleSpace: FlexibleSpaceBar(
-                background: FadeInImage.assetNetwork(
-                    fadeInCurve: Curves.bounceIn,
-                    placeholder: 'assets/icon.png',
-                    image:
-                        'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg')
-                //   Image.network(
-                //     'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg',
-                //     fit: BoxFit.cover,
-                //     loadingBuilder: (context, child, loadingProgress) {
-                //       if (loadingProgress == null) {
-                //         return child;
-                //       }
-                //       return Center(
-                //         child: CircularProgressIndicator(),
-                //       );
-                //     },
-                //   ),
-                ),
+              title: Text("Hello les zinzins"),
+              background: FadeInImage.assetNetwork(
+                  fadeInCurve: Curves.bounceIn,
+                  placeholder: 'assets/icon.png',
+                  image:
+                      'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg'),
+              stretchModes: [
+                StretchMode.zoomBackground,
+                StretchMode.blurBackground,
+                StretchMode.fadeTitle,
+              ],
+            ),
           ),
           SliverGrid(
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

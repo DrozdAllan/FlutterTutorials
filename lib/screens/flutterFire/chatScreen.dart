@@ -219,7 +219,8 @@ class Conversation extends ConsumerWidget {
                                         height: 200.0,
                                         child: Center(
                                           child:
-                                              const CircularProgressIndicator(),
+                                              //   const CircularProgressIndicator(),
+                                              const LinearProgressIndicator(),
                                         ),
                                       );
                                     },

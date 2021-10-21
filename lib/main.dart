@@ -11,6 +11,7 @@ import 'package:mynewapp/screens/cameraDemo/cameraDemo.dart';
 import 'package:mynewapp/screens/cameraDemo/emotionDetector.dart';
 import 'package:mynewapp/screens/cameraDemo/stuffDetector.dart';
 import 'package:mynewapp/screens/colorPicker/colorPicker.dart';
+import 'package:mynewapp/screens/drawerDemo/drawerDemo.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
 import 'package:mynewapp/screens/flashTuto/flashTuto.dart';
 import 'package:mynewapp/screens/flutterFire/chat.dart';
@@ -20,9 +21,12 @@ import 'package:mynewapp/screens/formBuilderTuto/formBuilderTuto.dart';
 import 'package:mynewapp/screens/hive/duckDetails.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
+import 'package:mynewapp/screens/location/location.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
 import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
+import 'package:mynewapp/screens/slidableDemo/slidableDemo.dart';
+import 'package:mynewapp/screens/tabDemo/tabDemo.dart';
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
@@ -125,6 +129,14 @@ class RouteGenerator {
         );
       case FormBuilderTuto.routeName: // 'formBuilderTuto'
         return MaterialPageRoute(builder: (context) => FormBuilderTuto());
+      case LocationDemo.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => LocationDemo());
+      case SlidableDemo.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => SlidableDemo());
+      case TabDemo.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => TabDemo());
+      case DrawerDemo.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => DrawerDemo());
       case FlutterFire.routeName: // '/flutterFire'
         return MaterialPageRoute(builder: (context) => FlutterFire());
       case Chat.routeName: // '/flutterFire'
