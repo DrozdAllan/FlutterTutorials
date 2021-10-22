@@ -21,7 +21,7 @@ import 'package:mynewapp/screens/formBuilderTuto/formBuilderTuto.dart';
 import 'package:mynewapp/screens/hive/duckDetails.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
-import 'package:mynewapp/screens/location/location.dart';
+import 'package:mynewapp/screens/location/geolocator.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
 import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
@@ -129,8 +129,8 @@ class RouteGenerator {
         );
       case FormBuilderTuto.routeName: // 'formBuilderTuto'
         return MaterialPageRoute(builder: (context) => FormBuilderTuto());
-      case LocationDemo.routeName: // 'formBuilderTuto'
-        return MaterialPageRoute(builder: (context) => LocationDemo());
+      case GeolocatorDemo.routeName: // 'formBuilderTuto'
+        return MaterialPageRoute(builder: (context) => GeolocatorDemo());
       case SlidableDemo.routeName: // 'formBuilderTuto'
         return MaterialPageRoute(builder: (context) => SlidableDemo());
       case TabDemo.routeName: // 'formBuilderTuto'

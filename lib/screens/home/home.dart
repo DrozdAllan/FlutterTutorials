@@ -201,9 +201,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
             },
           ),
           ListTile(
-            title: Text('Location Package'),
+            title: Text('Geolocator Package'),
             onTap: () {
-              Navigator.pushNamed(context, '/location');
+              Navigator.pushNamed(context, '/geolocator');
             },
           ),
           ListTile(
