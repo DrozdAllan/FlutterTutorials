@@ -30,94 +30,97 @@ class _PairWordsState extends State<PairWords> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: Text('Animated AppBar'),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/fav', arguments: _saved);
-                  },
-                  icon: Icon(Icons.hearing_outlined)),
-            ],
-            floating: true,
-            expandedHeight: 200,
-            pinned: false,
-            stretch: true,
-            // onStretchTrigger: () {}, to trigger functions on stretch like refreshing a list content
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text("Hello les zinzins"),
-              background: FadeInImage.assetNetwork(
-                  fadeInCurve: Curves.bounceIn,
-                  placeholder: 'assets/icon.png',
-                  image:
-                      'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg'),
-              stretchModes: [
-                StretchMode.zoomBackground,
-                StretchMode.blurBackground,
-                StretchMode.fadeTitle,
+      child: Scrollbar(
+// scrollbar style is defined in the themeData in style.dart
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: Text('Animated AppBar'),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/fav', arguments: _saved);
+                    },
+                    icon: Icon(Icons.hearing_outlined)),
               ],
+              floating: true,
+              expandedHeight: 200,
+              pinned: false,
+              stretch: true,
+              // onStretchTrigger: () {}, to trigger functions on stretch like refreshing a list content
+              flexibleSpace: FlexibleSpaceBar(
+                title: Text("Hello les zinzins"),
+                background: FadeInImage.assetNetwork(
+                    fadeInCurve: Curves.bounceIn,
+                    placeholder: 'assets/icon.png',
+                    image:
+                        'https://upload.wikimedia.org/wikipedia/commons/7/74/White_domesticated_duck%2C_stretching.jpg'),
+                stretchModes: [
+                  StretchMode.zoomBackground,
+                  StretchMode.blurBackground,
+                  StretchMode.fadeTitle,
+                ],
+              ),
             ),
-          ),
-          SliverGrid(
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200.0,
-              mainAxisSpacing: 10.0,
-              crossAxisSpacing: 10.0,
-              childAspectRatio: 4.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    if (_saved.contains(_suggestions.elementAt(index))) {
-                      _saved.remove(_suggestions.elementAt(index));
-                    } else {
-                      _saved.add(_suggestions.elementAt(index));
-                    }
-                  });
-                },
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    color: _saved.contains(_suggestions.elementAt(index))
-                        ? Colors.teal[600]
-                        : Colors.teal[200],
-                    child: Text(
-                      _suggestions.elementAt(index).toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22,
-                          decoration: TextDecoration.none),
+            SliverGrid(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200.0,
+                mainAxisSpacing: 10.0,
+                crossAxisSpacing: 10.0,
+                childAspectRatio: 4.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (context, index) => GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      if (_saved.contains(_suggestions.elementAt(index))) {
+                        _saved.remove(_suggestions.elementAt(index));
+                      } else {
+                        _saved.add(_suggestions.elementAt(index));
+                      }
+                    });
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      color: _saved.contains(_suggestions.elementAt(index))
+                          ? Colors.teal[600]
+                          : Colors.teal[200],
+                      child: Text(
+                        _suggestions.elementAt(index).toString(),
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            decoration: TextDecoration.none),
+                      ),
                     ),
                   ),
                 ),
+                childCount: 40,
               ),
-              childCount: 40,
             ),
-          ),
-          // SliverFillRemaining(
-          //   child: Center(
-          //     child: Column(
-          //       children: [
-          //         Text('The value blabla'),
-          //         SizedBox(),
-          //         Text('zinzinzouzouz'),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          // SliverList(
-          //     delegate: SliverChildListDelegate([
-          //   for (var i = 1; i <= 10; i++)
-          //     ListTile(
-          //       leading: CircleAvatar(),
-          //       title: Text(i.toString()),
-          //     )
-          // ]))
-        ],
+            // SliverFillRemaining(
+            //   child: Center(
+            //     child: Column(
+            //       children: [
+            //         Text('The value blabla'),
+            //         SizedBox(),
+            //         Text('zinzinzouzouz'),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // SliverList(
+            //     delegate: SliverChildListDelegate([
+            //   for (var i = 1; i <= 10; i++)
+            //     ListTile(
+            //       leading: CircleAvatar(),
+            //       title: Text(i.toString()),
+            //     )
+            // ]))
+          ],
+        ),
       ),
     );
   }

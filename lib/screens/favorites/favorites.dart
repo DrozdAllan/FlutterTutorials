@@ -44,7 +44,22 @@ class _FavoritesState extends State<Favorites> {
       appBar: AppBar(
         title: Text('Saved Suggestions'),
       ),
-      body: ListView(children: divided),
+      body: RefreshIndicator(
+        onRefresh: _refresh,
+        backgroundColor: Colors.red,
+        color: Colors.yellow,
+        strokeWidth: 5,
+        displacement: 100,
+        edgeOffset: 20,
+        triggerMode: RefreshIndicatorTriggerMode.onEdge,
+        child: ListView(children: divided),
+      ),
     );
   }
+}
+
+Future<void> _refresh() {
+  return Future.delayed(
+    Duration(seconds: 3),
+  );
 }

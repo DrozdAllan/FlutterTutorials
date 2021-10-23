@@ -31,6 +31,15 @@ ThemeData myTheme = ThemeData(
         TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
     toolbarHeight: 40.0,
   ),
+  scrollbarTheme: ScrollbarThemeData(
+    isAlwaysShown: true,
+    thickness: MaterialStateProperty.all(10.0),
+    thumbColor: MaterialStateProperty.all(Colors.cyan),
+    trackColor: MaterialStateProperty.all(Colors.red),
+    crossAxisMargin: 15.0,
+    radius: Radius.circular(10),
+    minThumbLength: 10,
+  ),
   textTheme: TextTheme(
     bodyText2: TextStyle(
       fontFamily: Montserra,
