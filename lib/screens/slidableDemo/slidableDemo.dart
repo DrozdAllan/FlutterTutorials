@@ -8,11 +8,6 @@ class SlidableDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<bool> _isOpen = [
-      false,
-      false,
-      false,
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Text('Slidable Demo'),
@@ -55,23 +50,55 @@ class SlidableDemo extends StatelessWidget {
               ],
             ),
           ),
-          Container(
-            child: ExpansionPanelList(
-              children: [
-                ExpansionPanel(
-                    headerBuilder: (context, isExpanded) {
-                      return Text("Zinzin");
-                    },
-                    body: Text("Now Open!"),
-                    isExpanded: _isOpen[0]),
-              ],
-              expansionCallback: (i, isOpen) {
-                _isOpen[i] = !isOpen;
-              },
-            ),
-          ),
+          Container(child: ExpansionPanelDemo()),
         ],
       ),
+    );
+  }
+}
+
+class ExpansionPanelDemo extends StatefulWidget {
+  const ExpansionPanelDemo({Key? key}) : super(key: key);
+
+  @override
+  _ExpansionPanelDemoState createState() => _ExpansionPanelDemoState();
+}
+
+class _ExpansionPanelDemoState extends State<ExpansionPanelDemo> {
+  List<bool> _isExpanded = [
+    true,
+    false,
+    false,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionPanelList(
+      children: [
+        ExpansionPanel(
+            headerBuilder: (context, isExpanded) {
+              return Text("Zinzin");
+            },
+            body: Text("Now Open!"),
+            isExpanded: _isExpanded[0],
+            canTapOnHeader: true),
+        ExpansionPanel(
+            headerBuilder: (context, isExpanded) {
+              return Text("Zouzou");
+            },
+            body: Text("Now Open!"),
+            isExpanded: _isExpanded[1],
+            canTapOnHeader: false),
+      ],
+      expansionCallback: (i, isOpen) {
+        setState(() {
+          _isExpanded[i] = !isOpen;
+        });
+      },
+      animationDuration: Duration(seconds: 2),
+      dividerColor: Colors.orange,
+      elevation: 1,
+      expandedHeaderPadding: EdgeInsets.all(8),
     );
   }
 }
