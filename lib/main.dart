@@ -32,12 +32,13 @@ import 'package:mynewapp/screens/moviesTitle/moviesTitle.dart';
 import 'package:mynewapp/screens/moviesTitle/moviesTitleResult.dart';
 import 'package:mynewapp/style.dart';
 
-//TODO: continue testing firebase cloud messaging
+// notification when the app is on background
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 // If you're going to use other Firebase services in the background, such as Firestore,
 // make sure you call `initializeApp` before using other Firebase services.
 //   await Firebase.initializeApp();
-  print('Background message ${message.messageId}');
+  print('Got a message whilst in the background!');
+  print('Handling a background message: ${message.messageId}');
 }
 
 late List<CameraDescription> cameras;

@@ -7,23 +7,61 @@ exports.notifyNewMessage = functions.firestore
   // firestore path I have built in this project, dont forget to modify
   .document("conversations/{conversationId}/messages/{message}")
   .onCreate(async (snapshot) => {
-    const database = admin.firestore();
-    const messaging = admin.messaging();
-    const message = snapshot.data();
-
     // get the users from their uid
-    const receiver = await database.collection("users").doc(message.to).get();
+    const sender = await admin
+      .firestore()
+      .collection("users")
+      .doc(snapshot.data().from)
+      .get();
 
-    const sender = await database.collection("users").doc(message.from).get();
+    const receiver = await admin
+      .firestore()
+      .collection("users")
+      .doc(snapshot.data().to)
+      .get();
 
-    const token = receiver.data().token;
+    //  WORKS ONLY WITH THE P8 BUT NOT THE P30, NO NOTIF AND NO LOGS ON DEBUG CONSOLE
+    // const token = receiver.data().notificationToken;
 
-    const payload = {
-      notification: {
-        title: `Nouveau message de ${sender.data().name}`,
-        body: message.data,
-        clickAction: "FLUTTER_NOTIFICATION_CLICK",
-      },
-    };
-    return messaging.sendToDevice(token, payload);
+    // const payload = {
+    //   notification: {
+    //     title: `Nouveau message de ${sender.data().name}`,
+    //     body: snapshot.data().data,
+    //     clickAction: "FLUTTER_NOTIFICATION_CLICK",
+    //     priority: "high",
+    //   },
+    // };
+
+    // return admin.messaging().sendToDevice(token, payload);
+
+    return admin
+      .messaging()
+      .sendToDevice(
+        receiver.data().notificationToken, // one token with a string or multiple with a list of string
+        {
+          notification: {
+            title: `Nouveau message de ${sender.data().name}`,
+            body: snapshot.data().data,
+            clickAction: "FLUTTER_NOTIFICATION_CLICK",
+          },
+          data: {
+            type: "chat",
+            sender: JSON.stringify(sender),
+            receiver: JSON.stringify(receiver),
+            message: JSON.stringify(snapshot.data().data),
+          },
+        },
+        {
+          // Required for background/quit data-only messages on iOS
+          contentAvailable: true,
+          // Required for background/quit data-only messages on Android
+          priority: "high",
+        }
+      )
+      .then((response) => {
+        console.log("Successfully sent message:", response);
+      })
+      .catch((error) => {
+        console.log("Error sending message:", error);
+      });
   });

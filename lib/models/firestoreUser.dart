@@ -22,7 +22,7 @@ class FirestoreUser {
       'uid': uid,
       'name': name,
       'ducks': ducks,
-      'notifiactionToken': notificationToken
+      'notificationToken': notificationToken
     };
   }
 }
