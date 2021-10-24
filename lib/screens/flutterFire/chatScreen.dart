@@ -153,7 +153,6 @@ class Conversation extends ConsumerWidget {
               shrinkWrap: true,
               itemCount: value.length,
               itemBuilder: (BuildContext context, int index) {
-                print(value.elementAt(index).timestamp);
                 return Column(
                   crossAxisAlignment: value.elementAt(index).from == peerUid
                       ? CrossAxisAlignment.end

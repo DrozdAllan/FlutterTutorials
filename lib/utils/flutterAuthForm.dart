@@ -55,7 +55,8 @@ class FlutterfireAuthForm extends StatelessWidget {
               }
             },
             onTap: () {
-              _buttonController.reset();
+              //   _buttonController.reset();
+              _buttonController.stop();
             },
           ),
           TextFormField(
@@ -68,14 +69,10 @@ class FlutterfireAuthForm extends StatelessWidget {
               _buttonController.reset();
             },
           ),
-          // rounded_loading_button package
-          RoundedLoadingButton(
-              width: 100,
-              height: 30,
-              controller: _buttonController,
+          ElevatedButton(
               onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  _buttonController.success();
+                  // _buttonController.success();
                   var email = _mailController.value.text;
                   var username = _usernameController.value.text;
                   var password = _passwordController.value.text;
@@ -84,10 +81,34 @@ class FlutterfireAuthForm extends StatelessWidget {
                       ? await AuthenticationService().logIn(email, password)
                       : await AuthenticationService()
                           .register(email, username, password);
+                } else {
+                  print('error');
+                  // _buttonController.error();
                 }
-                _buttonController.error();
               },
-              child: Text(showSignin ? 'Login' : 'Register'))
+              child: Text('Go !'))
+          // rounded_loading_button package
+          //   RoundedLoadingButton(
+          //       width: 100,
+          //       height: 30,
+          //       controller: _buttonController,
+          //       onPressed: () async {
+          //         _buttonController.start();
+          //         if (_formKey.currentState!.validate()) {
+          //           _buttonController.success();
+          //           var email = _mailController.value.text;
+          //           var username = _usernameController.value.text;
+          //           var password = _passwordController.value.text;
+
+          //           showSignin
+          //               ? await AuthenticationService().logIn(email, password)
+          //               : await AuthenticationService()
+          //                   .register(email, username, password);
+          //         } else {
+          //           _buttonController.error();
+          //         }
+          //       },
+          //       child: Text(showSignin ? 'Login' : 'Register'))
         ],
       ),
     );
