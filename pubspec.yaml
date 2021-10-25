@@ -48,6 +48,7 @@ dependencies:
   lottie: ^1.2.1
   firebase_core: ^1.8.0
   firebase_auth: ^3.1.4
+  flutter_local_notifications: ^9.0.1
   cloud_firestore: ^2.5.4
   firebase_storage: "^10.0.6"
   firebase_messaging: ^10.0.9

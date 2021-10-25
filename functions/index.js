@@ -20,30 +20,18 @@ exports.notifyNewMessage = functions.firestore
       .doc(snapshot.data().to)
       .get();
 
-    //  WORKS ONLY WITH THE P8 BUT NOT THE P30, NO NOTIF AND NO LOGS ON DEBUG CONSOLE
-    // const token = receiver.data().notificationToken;
-
-    // const payload = {
-    //   notification: {
-    //     title: `Nouveau message de ${sender.data().name}`,
-    //     body: snapshot.data().data,
-    //     clickAction: "FLUTTER_NOTIFICATION_CLICK",
-    //     priority: "high",
-    //   },
-    // };
-
-    // return admin.messaging().sendToDevice(token, payload);
-
     return admin
       .messaging()
       .sendToDevice(
         receiver.data().notificationToken, // one token with a string or multiple with a list of string
         {
+          // if you only want to send a notification, only use the notification object
           notification: {
             title: `Nouveau message de ${sender.data().name}`,
             body: snapshot.data().data,
             clickAction: "FLUTTER_NOTIFICATION_CLICK",
           },
+          // if you want to send data, its a key-value pairs form with a 4KB total, so convert objects to JSON
           data: {
             type: "chat",
             sender: JSON.stringify(sender),
@@ -52,6 +40,7 @@ exports.notifyNewMessage = functions.firestore
           },
         },
         {
+          // If you send data only messages (so no notification), you need the two lines below
           // Required for background/quit data-only messages on iOS
           contentAvailable: true,
           // Required for background/quit data-only messages on Android

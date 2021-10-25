@@ -108,42 +108,42 @@ class RouteGenerator {
             });
       case Riverpod.routeName: // '/riverpod'
         return MaterialPageRoute(builder: (context) => Riverpod());
-      case ColorPickerTuto.routeName: // '/riverpod'
+      case ColorPickerTuto.routeName: // '/colorPicker'
         return MaterialPageRoute(builder: (context) => ColorPickerTuto());
-      case FlashTuto.routeName: // '/riverpod'
+      case FlashTuto.routeName: // '/flashTuto'
         return MaterialPageRoute(builder: (context) => FlashTuto());
-      case SharedPreferencesDemo.routeName: // '/riverpod'
+      case SharedPreferencesDemo.routeName: // '/sharedPref'
         return MaterialPageRoute(builder: (context) => SharedPreferencesDemo());
-      case CameraDemo.routeName: // '/riverpod'
+      case CameraDemo.routeName: // '/cameraDemo'
         return MaterialPageRoute(builder: (context) => CameraDemo());
-      case EmotionDetector.routeName: // '/riverpod'
+      case EmotionDetector.routeName: // '/emotion'
         return MaterialPageRoute(
             builder: (context) => EmotionDetector(cameras));
-      case StuffDetector.routeName: // '/riverpod'
+      case StuffDetector.routeName: // '/stuff'
         return MaterialPageRoute(builder: (context) => StuffDetector(cameras));
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
-      case DuckDetails.routeName: // '/hive'
+      case DuckDetails.routeName: // '/duckDetails'
         return MaterialPageRoute(
           builder: (context) => DuckDetails(
             ducksListIndex: settings.arguments as int,
           ),
         );
-      case FormBuilderTuto.routeName: // 'formBuilderTuto'
+      case FormBuilderTuto.routeName: // '/formBuilderTuto'
         return MaterialPageRoute(builder: (context) => FormBuilderTuto());
-      case GeolocatorDemo.routeName: // 'formBuilderTuto'
+      case GeolocatorDemo.routeName: // '/geolocator'
         return MaterialPageRoute(builder: (context) => GeolocatorDemo());
-      case SlidableDemo.routeName: // 'formBuilderTuto'
+      case SlidableDemo.routeName: // '/slidable'
         return MaterialPageRoute(builder: (context) => SlidableDemo());
-      case TabDemo.routeName: // 'formBuilderTuto'
+      case TabDemo.routeName: // '/tab'
         return MaterialPageRoute(builder: (context) => TabDemo());
-      case DrawerDemo.routeName: // 'formBuilderTuto'
+      case DrawerDemo.routeName: // '/drawer'
         return MaterialPageRoute(builder: (context) => DrawerDemo());
       case FlutterFire.routeName: // '/flutterFire'
         return MaterialPageRoute(builder: (context) => FlutterFire());
-      case Chat.routeName: // '/flutterFire'
+      case Chat.routeName: // '/chat'
         return MaterialPageRoute(builder: (context) => Chat());
-      case ChatScreen.routeName: // '/flutterFire'
+      case ChatScreen.routeName: // '/chatScreen'
         return MaterialPageRoute(
           builder: (context) => ChatScreen(
             peerUid: settings.arguments,
