@@ -30,9 +30,11 @@ class NotificationService {
       }
     }
 
-//TODO: check the notification channels to try to display a notif when app is in foreground https://firebase.flutter.dev/docs/messaging/notifications/#foreground-notifications
+//TODO: check the notification channels to try to display a notif when app
+//is in foreground https://firebase.flutter.dev/docs/messaging/notifications/#foreground-notifications
 
-//TODO: the index.js of the firebase functions works perfectly fine with the P8 but doesn't send anything to the P30 nor debug console messages, so it may be a problem with android 10
+//TODO: the index.js of the firebase functions works perfectly fine with the P8
+//but doesn't send anything to the P30 nor debug console messages, so it may be a problem with android 10
 
     // notification when the app is on foreground
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {

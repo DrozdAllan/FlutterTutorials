@@ -20,7 +20,7 @@ class FlutterProfile extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: [
-                    _logoutButton(),
+                    _logoutButton(context),
                     RiverpodStream(),
                   ],
                 ),
@@ -32,11 +32,12 @@ class FlutterProfile extends StatelessWidget {
     );
   }
 
-  _logoutButton() {
+  _logoutButton(context) {
     return ElevatedButton(
       child: Text('Logout'),
       onPressed: () {
-        AuthenticationService().logOut();
+        AuthenticationService().logOut().then(
+            (value) => Navigator.pushReplacementNamed(context, '/flutterFire'));
       },
     );
   }

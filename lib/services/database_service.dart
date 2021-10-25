@@ -14,7 +14,7 @@ class UserService {
         toFirestore: (FirestoreUser firestoreUser, _) => firestoreUser.toMap(),
       );
 
-  static final firestoreUserProvider = StreamProvider((ref) {
+  static final firestoreUserProvider = StreamProvider.autoDispose((ref) {
     String? userID = FirebaseAuth.instance.currentUser?.uid;
 
     return usersRef.doc(userID).snapshots();
@@ -71,7 +71,6 @@ class ConversationService {
       conversationId = '$peerUid-$userID';
     }
 
-    print(conversationId);
     return conversationCollection
         .doc(conversationId)
         .collection('messages')
@@ -91,8 +90,6 @@ class ConversationService {
     } else {
       conversationId = '$peerUid-$userID';
     }
-
-    print(conversationId);
 
     await FirebaseFirestore.instance
         .collection('conversations')
