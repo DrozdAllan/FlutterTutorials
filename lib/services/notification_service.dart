@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mynewapp/models/firestoreUser.dart';
 
 class NotificationService {
   static void initialize(context) async {
@@ -18,31 +20,59 @@ class NotificationService {
     // NTM APPLE
     // final IOSInitializationSettings initializationSettingsIOS =
     //     IOSInitializationSettings(
+    //         requestSoundPermission: false,
+    // requestBadgePermission: false,
+    // requestAlertPermission: false,
     //         onDidReceiveLocalNotification: onDidReceiveLocalNotification);
 
     // config with MacOs : todo later same as iOs
     // final MacOSInitializationSettings initializationSettingsMacOS =
     //     MacOSInitializationSettings();
 
+//     void onDidReceiveLocalNotification(
+//     int id, String title, String body, String payload) async {
+//   // display a dialog with the notification details, tap ok to go to another page
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) => CupertinoAlertDialog(
+//       title: Text(title),
+//       content: Text(body),
+//       actions: [
+//         CupertinoDialogAction(
+//           isDefaultAction: true,
+//           child: Text('Ok'),
+//           onPressed: () async {
+//             Navigator.of(context, rootNavigator: true).pop();
+//             await Navigator.push(
+//               context,
+//               MaterialPageRoute(
+//                 builder: (context) => SecondScreen(payload),
+//               ),
+//             );
+//           },
+//         ),
+//       ],
+//     ),
+//   );})
+
     final InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
       // iOS: initializationSettingsIOS,
-      // macOS: initializationSettingsMacOS,
+      //   macOS: osef,
     );
 
     // We initialize and add a function that fire when a notification is tapped
     await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: (String? payload) async {
-      // the payload here is useless but it's for testing purpose
       if (payload != null) {
-        debugPrint('notification payload: $payload');
-        inspect(payload);
+        print('the id of the user you get the msg from is : $payload');
+        await Navigator.pushNamed(
+          context,
+          '/chatScreen',
+          arguments: payload,
+        );
       }
-      await Navigator.pushNamed(
-        context, '/chat',
-        // arguments: ChatArguments(payload);
-      );
     });
 
     // SECOND we configure a custom notification channel
@@ -57,7 +87,17 @@ class NotificationService {
       // enableVibration: false, etc...
     );
 
-    // Here we set this custom channel
+    // Get the notifs permissions for iOs
+    // await flutterLocalNotificationsPlugin
+    //     .resolvePlatformSpecificImplementation<
+    //         IOSFlutterLocalNotificationsPlugin>()
+    //     ?.requestPermissions(
+    //       alert: true,
+    //       badge: true,
+    //       sound: true,
+    //     );
+
+    // Here we set this custom channel for android
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>()
@@ -76,10 +116,11 @@ class NotificationService {
     );
     print('User granted permission: ${settings.authorizationStatus}');
 
-    // Actions to do when the user tap the notification
+    // Actions to do when the user tap a System notification
     // If the message contains a data property with a "type" key and "chat" value, navigate to the chat screen
     void _handleMessage(RemoteMessage message) {
       if (message.data['type'] == 'chat') {
+        print('the notification you tapped has the type value : chat');
         Navigator.pushNamed(
           context, '/chat',
           // arguments: ChatArguments(message),
@@ -87,28 +128,42 @@ class NotificationService {
       }
     }
 
-    // Notification when the app is terminated
+    // System Notification when the app is terminated
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) {
       _handleMessage(initialMessage);
     }
 
-    // Notification when the app is on background
+    // System Notification when the app is on background
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
 
     // Notification when the app is on foreground : you have to create a custom notification channel
     // with maximum importance to display a notification when an android app is on foreground, otherwise nothing happens
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // if it's only a notification
       RemoteNotification? notification = message.notification;
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      // if there is also data to the FCM
+      Map<String, dynamic> data = message.data;
+
+      debugPrint('Got a message whilst in the foreground!');
+      //   print('Message data : $data');
+
+      final fullSenderObjectData = jsonDecode(data['fullSenderObjectData']);
+      print('fullSenderObjectData : $fullSenderObjectData');
+
+      // this way you get the type-safe FirestoreUser model, but theres all
+      // the user's info, it's too much, you should only send what you need with
+      // the cloud Functions in index.js
+      FirestoreUser firestoreUserSenderData =
+          FirestoreUser.fromMap(jsonDecode(data['fullSenderObjectData']));
+
+      inspect(firestoreUserSenderData);
 
       if (notification != null) {
         print('Message also contained a notification: $notification');
 
-        // IF THE NOTIFICATION FROM FIREBASE CLOUD MESSAGING IS FOR ANDROID USERS,
-        // WE USE THE FLUTTER_LOCAL_NOTIFICATIONS WE SET ABOVE
+        // In this project we only create headsup notifications for android, so line below:
         if (notification.android != null) {
           print('The notification is displayed to an android device');
           flutterLocalNotificationsPlugin.show(
@@ -116,16 +171,27 @@ class NotificationService {
               notification.title,
               notification.body,
               NotificationDetails(
+                // check https://pub.dev/documentation/flutter_local_notifications/latest/flutter_local_notifications/AndroidNotificationDetails-class.html
                 android: AndroidNotificationDetails(
                   channel.id,
                   channel.name,
                   channelDescription: channel.description,
                   //   icon: notification.android?.smallIcon,
-                  // other properties...
+                  // lots of other properties...
                 ),
+                iOS: IOSNotificationDetails(
+                    //  presentAlert: bool?, Present an alert when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+                    // presentBadge: bool?,  Present the badge number when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+                    // presentSound: bool?, Play a sound when the notification is displayed and the application is in the foreground (only from iOS 10 onwards)
+                    // sound: String?, Specifics the file path to play (only from iOS 10 onwards)
+                    // badgeNumber: int?, The application's icon badge number
+                    // attachments: List<IOSNotificationAttachment>?, (only from iOS 10 onwards)
+                    // subtitle: String?, Secondary description  (only from iOS 10 onwards)
+                    // threadIdentifier: String? (only from iOS 10 onwards)
+                    ),
               ),
-              // the payload here is useless but its for testing purpose
-              payload: 'item x');
+              // the payload is the data contained in the Heads-up notification
+              payload: firestoreUserSenderData.uid);
         }
       }
     });

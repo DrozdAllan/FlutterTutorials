@@ -34,9 +34,10 @@ exports.notifyNewMessage = functions.firestore
           // if you want to send data, its a key-value pairs form with a 4KB total, so convert objects to JSON
           data: {
             type: "chat",
-            sender: JSON.stringify(sender),
-            receiver: JSON.stringify(receiver),
-            message: JSON.stringify(snapshot.data().data),
+            // this way you can get the FirestoreUser model from
+            // this data with its .fromMap() method
+            // but you should only get the data you need beforehand
+            fullSenderObjectData: JSON.stringify(sender.data()),
           },
         },
         {

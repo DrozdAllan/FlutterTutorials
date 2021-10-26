@@ -22,7 +22,7 @@ class ChatScreen extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            Conversation(peerUid),
+            Expanded(child: Conversation(peerUid)),
             BuildInput(
               peerUid: peerUid,
             )
