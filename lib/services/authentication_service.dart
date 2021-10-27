@@ -39,7 +39,11 @@ class AuthenticationService {
 
   Future<void> logIn(String email, String password) async {
     try {
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((UserCredential userCredential) {
+        UserService().updateUserNotificationToken(userCredential.user!.uid);
+      });
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');

@@ -23,7 +23,8 @@ exports.notifyNewMessage = functions.firestore
     return admin
       .messaging()
       .sendToDevice(
-        receiver.data().notificationToken, // one token with a string or multiple with a list of string
+        // one token with a string or multiple with a list of string
+        receiver.data().notificationToken,
         {
           // if you only want to send a notification, only use the notification object
           notification: {
@@ -50,6 +51,7 @@ exports.notifyNewMessage = functions.firestore
       )
       .then((response) => {
         console.log("Successfully sent message:", response);
+        console.log(response.results[0].error);
       })
       .catch((error) => {
         console.log("Error sending message:", error);

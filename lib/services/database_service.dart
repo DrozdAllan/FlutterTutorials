@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/models/firestoreConversation.dart';
 import 'package:mynewapp/models/firestoreUser.dart';
-import 'package:mynewapp/services/notification_service.dart';
 
 class UserService {
 // users collection ref, with a FirestoreUser class converter
@@ -21,11 +21,17 @@ class UserService {
   });
 
   Future<void> saveNewUser(String uid, String username) async {
-    String? token = await NotificationService.getToken();
+    String? token = await FirebaseMessaging.instance.getToken();
     print(token);
     return await usersRef
         .doc(uid)
         .set(FirestoreUser(uid: uid, name: username, notificationToken: token));
+  }
+
+  Future<void> updateUserNotificationToken(String uid) async {
+    String? token = await FirebaseMessaging.instance.getToken();
+
+    return await usersRef.doc(uid).update({'notificationToken': token});
   }
 
   Future<void> addDuck(int? previousDucks, int duckNumber) async {
