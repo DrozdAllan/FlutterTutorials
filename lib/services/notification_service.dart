@@ -81,7 +81,7 @@ class NotificationService {
       }
     });
 
-    final Int64List vibrationPattern = new Int64List(4);
+    final Int64List vibrationPattern = Int64List(4);
     vibrationPattern[0] = 0;
     vibrationPattern[1] = 1000;
     vibrationPattern[2] = 5000;
@@ -89,10 +89,10 @@ class NotificationService {
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-            'high_importance_channel', // id
-            'High Importance Notifications', // name
+            'custom_high_importance_channel', // id
+            'Custom High Importance Notifications', // name
             channelDescription:
-                'This channel is used for important notifications.', // description
+                'This custom channel is used for important notifications.', // description
             importance: Importance.max,
             priority: Priority.high,
             playSound: true,
