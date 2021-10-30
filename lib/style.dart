@@ -14,9 +14,12 @@ const Montserra = 'Montserrat';
 final Color _mainColor = Colors.teal.shade800;
 
 ThemeData myTheme = ThemeData(
-  primarySwatch: Colors.orange,
-  brightness: Brightness.light,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
+  colorScheme: ColorScheme.fromSwatch(
+    primarySwatch: Colors.orange,
+    brightness: Brightness.light,
+  ),
+//   primarySwatch: Colors.orange,
+//   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: GoogleFonts.emilysCandyTextTheme(),
 //   scaffoldBackgroundColor: Colors.orange[100],
 // inputDecorationTheme: ,
@@ -73,21 +76,44 @@ ThemeData myTheme = ThemeData(
 );
 
 ThemeData myDarkTheme = ThemeData(
-  primarySwatch: Colors.deepOrange,
-  brightness: Brightness.dark,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
+  colorScheme: ColorScheme(
+    brightness: Brightness.dark,
+    // Background for Appbar, Card...
+    surface: Colors.lightGreen,
+    // Text and Icons on Appbar, Card...
+    onSurface: Colors.red,
+    // Background for ElevatedButton, TextButton, Loaders...
+    primary: Colors.orange,
+    // Text and Icons on ElevatedButton, TextButton, Background on FormBuilderOption
+    onPrimary: Colors.pink,
+    // I don't know yet
+    primaryVariant: Colors.green,
+    // Background for FloatingActionButton, effect when you can't scroll more
+    secondary: Colors.pink,
+    // I don't know yet
+    secondaryVariant: Colors.pink,
+    // I don't know yet
+    onSecondary: Colors.green,
+    // I don't know yet
+    onBackground: Colors.green,
+    // I don't know yet
+    background: Colors.green,
+    // I don't know yet
+    error: Colors.yellow,
+    // I don't know yet
+    onError: Colors.blue,
+  ),
+//   visualDensity: VisualDensity.adaptivePlatformDensity,
   textTheme: TextTheme(
     bodyText2: TextStyle(
       fontFamily: Montserra,
       fontWeight: FontWeight.w300,
       fontSize: BodyTextSize,
-      color: _mainColor,
     ),
     headline6: TextStyle(
       fontFamily: Montserra,
       fontWeight: FontWeight.w300,
       fontSize: LargeTextSize,
-      color: Colors.black,
     ),
   ),
 //   appBarTheme: AppBarTheme(

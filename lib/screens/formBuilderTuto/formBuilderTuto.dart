@@ -140,7 +140,7 @@ class FormBuilderWidget extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'I accept the terms',
-                        style: TextStyle(color: Colors.black),
+                        // style: TextStyle(color: Colors.black),
                       ),
                     ],
                   ),

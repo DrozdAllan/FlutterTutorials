@@ -4,6 +4,7 @@ import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
@@ -69,8 +70,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: myTheme,
-      darkTheme: myDarkTheme,
+      //   theme: myTheme,
+      theme: FlexColorScheme.light(scheme: FlexScheme.mango).toTheme,
+      //   darkTheme: myDarkTheme,
+      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.sakura).toTheme,
       themeMode: EasyDynamicTheme.of(context).themeMode,
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
       initialRoute: Home.routeName,
