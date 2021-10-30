@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const BodyTextSize = 16.0;
 const LargeTextSize = 24.0;
@@ -13,6 +14,38 @@ const Montserra = 'Montserrat';
 final Color _mainColor = Colors.teal.shade800;
 
 ThemeData myTheme = ThemeData(
+  primarySwatch: Colors.orange,
+  brightness: Brightness.light,
+  visualDensity: VisualDensity.adaptivePlatformDensity,
+  textTheme: GoogleFonts.emilysCandyTextTheme(),
+//   scaffoldBackgroundColor: Colors.orange[100],
+// inputDecorationTheme: ,
+// iconTheme: ,
+// sliderTheme: ,
+// tabBarTheme: ,
+// tooltipTheme: ,
+// cardTheme: ,
+// chipTheme: ,
+//   TextTheme(
+//     bodyText2: TextStyle(
+//       fontFamily: Montserra,
+//       fontWeight: FontWeight.w300,
+//       fontSize: BodyTextSize,
+//       color: _mainColor,
+//     ),
+//     headline6: TextStyle(
+//       fontFamily: Montserra,
+//       fontWeight: FontWeight.w300,
+//       fontSize: LargeTextSize,
+//       color: Colors.black,
+//     ),
+//     bodyText1: TextStyle(
+//       fontFamily: Montserra,
+//       fontWeight: FontWeight.w300,
+//       fontSize: BodyTextSize,
+//       color: _mainColor,
+//     ),
+//   ),
   pageTransitionsTheme: PageTransitionsTheme(
     builders: <TargetPlatform, PageTransitionsBuilder>{
       //   TargetPlatform.android: ZoomPageTransitionsBuilder(),
@@ -20,17 +53,14 @@ ThemeData myTheme = ThemeData(
       // FadeUpwardsPageTransitionsBuilder - OpenUpwardsPageTransitionsBuilder - ZoomPageTransitionsBuilder - CupertinoPageTransitionsBuilder
     },
   ),
-  brightness: Brightness.light,
-  visualDensity: VisualDensity.adaptivePlatformDensity,
-  primarySwatch: Colors.cyan,
-  appBarTheme: AppBarTheme(
-    color: Colors.amber,
-    elevation: 0,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-    toolbarTextStyle:
-        TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-    toolbarHeight: 40.0,
-  ),
+//   appBarTheme: AppBarTheme(
+//     color: Colors.amber,
+//     elevation: 0,
+//     titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+//     toolbarTextStyle:
+//         TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+//     toolbarHeight: 40.0,
+//   ),
   scrollbarTheme: ScrollbarThemeData(
     isAlwaysShown: true,
     thickness: MaterialStateProperty.all(10.0),
@@ -40,40 +70,12 @@ ThemeData myTheme = ThemeData(
     radius: Radius.circular(10),
     minThumbLength: 10,
   ),
-  textTheme: TextTheme(
-    bodyText2: TextStyle(
-      fontFamily: Montserra,
-      fontWeight: FontWeight.w300,
-      fontSize: BodyTextSize,
-      color: _mainColor,
-    ),
-    headline6: TextStyle(
-      fontFamily: Montserra,
-      fontWeight: FontWeight.w300,
-      fontSize: LargeTextSize,
-      color: Colors.black,
-    ),
-    bodyText1: TextStyle(
-      fontFamily: Montserra,
-      fontWeight: FontWeight.w300,
-      fontSize: BodyTextSize,
-      color: _mainColor,
-    ),
-  ),
 );
 
 ThemeData myDarkTheme = ThemeData(
+  primarySwatch: Colors.deepOrange,
   brightness: Brightness.dark,
   visualDensity: VisualDensity.adaptivePlatformDensity,
-  primarySwatch: Colors.cyan,
-  appBarTheme: AppBarTheme(
-    color: Colors.red,
-    elevation: 0,
-    titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-    toolbarTextStyle:
-        TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-    toolbarHeight: 40.0,
-  ),
   textTheme: TextTheme(
     bodyText2: TextStyle(
       fontFamily: Montserra,
@@ -88,6 +90,14 @@ ThemeData myDarkTheme = ThemeData(
       color: Colors.black,
     ),
   ),
+//   appBarTheme: AppBarTheme(
+//     color: Colors.red,
+//     elevation: 0,
+//     titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+//     toolbarTextStyle:
+//         TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+//     toolbarHeight: 40.0,
+//   ),
 );
 
 class MyClipper extends CustomClipper<Path> {
