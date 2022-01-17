@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart' as rive;
 
 class TabDemo extends StatelessWidget {
   const TabDemo({Key? key}) : super(key: key);
@@ -74,17 +75,54 @@ class TabDemo extends StatelessWidget {
                 image: AssetImage('assets/splash.png'),
               ),
             ),
-            ListView(children: [
-              SwitchListTile(
-                  title: Text('SwitchListTileWidget'),
-                  value: true,
-                  onChanged: (value) {}),
-              CheckboxListTile(
-                  title: Text('SwitchListTileWidget'),
-                  value: _throwShotAway,
-                  onChanged: (newValue) {}),
-            ]),
+            Container(child: RiveAnimation()),
           ]),
+        ),
+      ),
+    );
+  }
+}
+
+class RiveAnimation extends StatefulWidget {
+  const RiveAnimation({Key? key}) : super(key: key);
+
+  @override
+  _RiveAnimationState createState() => _RiveAnimationState();
+}
+
+class _RiveAnimationState extends State<RiveAnimation> {
+  // Controller for playback
+  late rive.RiveAnimationController _controller;
+
+  // Toggles between play and pause animation states
+  void _togglePlay() =>
+      setState(() => _controller.isActive = !_controller.isActive);
+
+  /// Tracks if the animation is playing by whether controller is running
+  bool get isPlaying => _controller.isActive;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = rive.SimpleAnimation('Flying');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: rive.RiveAnimation.asset(
+          'assets/rocketship.riv',
+          controllers: [_controller],
+          // Update the play state when the widget's initialized
+          onInit: (_) => setState(() {}),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _togglePlay,
+        tooltip: isPlaying ? 'Pause' : 'Play',
+        child: Icon(
+          isPlaying ? Icons.pause : Icons.play_arrow,
         ),
       ),
     );

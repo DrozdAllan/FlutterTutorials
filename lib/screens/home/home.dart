@@ -212,6 +212,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Navigator.pushNamed(context, '/slidable');
             },
           ),
+          ListTile(
+            title: Text('Animations Demo'),
+            onTap: () {
+              Navigator.pushNamed(context, '/animations');
+            },
+          ),
           IconButton(
             icon: AnimatedIcon(
                 icon: AnimatedIcons.arrow_menu, progress: _animationController),

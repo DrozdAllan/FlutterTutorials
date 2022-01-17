@@ -8,6 +8,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
+import 'package:mynewapp/screens/Animations/Animations.dart';
 import 'package:mynewapp/screens/cameraDemo/cameraDemo.dart';
 import 'package:mynewapp/screens/cameraDemo/emotionDetector.dart';
 import 'package:mynewapp/screens/cameraDemo/stuffDetector.dart';
@@ -118,11 +119,11 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => SharedPreferencesDemo());
       case CameraDemo.routeName: // '/cameraDemo'
         return MaterialPageRoute(builder: (context) => CameraDemo());
-      case EmotionDetector.routeName: // '/emotion'
-        return MaterialPageRoute(
-            builder: (context) => EmotionDetector(cameras));
-      case StuffDetector.routeName: // '/stuff'
-        return MaterialPageRoute(builder: (context) => StuffDetector(cameras));
+      //   case EmotionDetector.routeName: // '/emotion'
+      //     return MaterialPageRoute(
+      //         builder: (context) => EmotionDetector(cameras));
+      //   case StuffDetector.routeName: // '/stuff'
+      //     return MaterialPageRoute(builder: (context) => StuffDetector(cameras));
       case HiveTuto.routeName: // '/hive'
         return MaterialPageRoute(builder: (context) => HiveTuto());
       case DuckDetails.routeName: // '/duckDetails'
@@ -155,6 +156,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => UserApiTest());
       case MoviesTitle.routeName: // '/moviesTitle'
         return MaterialPageRoute(builder: (context) => MoviesTitle());
+      case Animations.routeName: // '/animations'
+        return MaterialPageRoute(builder: (context) => Animations());
       case MoviesTitleResult.routeName:
         return MaterialPageRoute(
             builder: (context) =>

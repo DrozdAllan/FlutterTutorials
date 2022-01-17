@@ -10,6 +10,7 @@ class CameraDemo extends StatelessWidget {
         heightFactor: 5.0,
         child: Column(
           children: [
+            Text('Everything is deprecated with the tflite plugin'),
             ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/stuff');
