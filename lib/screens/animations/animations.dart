@@ -90,7 +90,7 @@ class _AnimationsState extends State<Animations> with TickerProviderStateMixin {
                 curve: SineCurve(),
               ),
               Text(
-                  'There is also AnimatedAlign, AnimatedOpacity, AnimatedPadding, AnimatedRotation, AnimatedPhysicalModel, AnimatedPositioned, AnimatedPositionedDirectional, AnimatedSize, AnimatedTheme, AnimatedCrossFade and AnimatedSwitcher \n',
+                  'There is also AnimatedContainer, AnimatedAlign, AnimatedOpacity, AnimatedPadding, AnimatedRotation, AnimatedPhysicalModel, AnimatedPositioned, AnimatedPositionedDirectional, AnimatedSize, AnimatedTheme, AnimatedCrossFade and AnimatedSwitcher \n',
                   textAlign: TextAlign.center),
               Text(
                 'Implicitly animated custom widgets : TweenAnimationBuilder \n',
@@ -100,16 +100,17 @@ class _AnimationsState extends State<Animations> with TickerProviderStateMixin {
               Text('j\'ai mis un exemple mais c\'est de la merde',
                   textAlign: TextAlign.center),
               TweenAnimationBuilder(
-                // if you dont modify that tween's values, its best to declare it as a Static Final variable
                 tween: ColorTween(begin: Colors.white, end: Colors.green),
                 duration: Duration(seconds: 3),
-                builder: (context, value, child) {
+                child: Image.asset(
+                  'assets/icon.png',
+                  width: 30,
+                  height: 30,
+                ),
+                // if you dont modify that tween's values, its best to declare it as a Static Final variable
+                builder: (_, Color? color, Widget? myChild) {
                   return ColorFiltered(
-                    child: Image.asset(
-                      'assets/icon.png',
-                      width: 30,
-                      height: 30,
-                    ),
+                    child: myChild,
                     colorFilter:
                         ColorFilter.mode(Colors.pink, BlendMode.modulate),
                   );

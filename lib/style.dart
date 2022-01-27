@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const BodyTextSize = 16.0;
+const BodyTextSize = 18.0;
 const LargeTextSize = 24.0;
 
 // fonts are stored in assets/fonts and notified in pubspec.yaml
@@ -18,52 +18,20 @@ ThemeData myTheme = ThemeData(
     primarySwatch: Colors.orange,
     brightness: Brightness.light,
   ),
-//   primarySwatch: Colors.orange,
-//   visualDensity: VisualDensity.adaptivePlatformDensity,
-  textTheme: GoogleFonts.emilysCandyTextTheme(),
-//   scaffoldBackgroundColor: Colors.orange[100],
-// inputDecorationTheme: ,
-// iconTheme: ,
-// sliderTheme: ,
-// tabBarTheme: ,
-// tooltipTheme: ,
-// cardTheme: ,
-// chipTheme: ,
-//   TextTheme(
-//     bodyText2: TextStyle(
-//       fontFamily: Montserra,
-//       fontWeight: FontWeight.w300,
-//       fontSize: BodyTextSize,
-//       color: _mainColor,
-//     ),
-//     headline6: TextStyle(
-//       fontFamily: Montserra,
-//       fontWeight: FontWeight.w300,
-//       fontSize: LargeTextSize,
-//       color: Colors.black,
-//     ),
-//     bodyText1: TextStyle(
-//       fontFamily: Montserra,
-//       fontWeight: FontWeight.w300,
-//       fontSize: BodyTextSize,
-//       color: _mainColor,
-//     ),
-//   ),
-  pageTransitionsTheme: PageTransitionsTheme(
-    builders: <TargetPlatform, PageTransitionsBuilder>{
-      //   TargetPlatform.android: ZoomPageTransitionsBuilder(),
-      defaultTargetPlatform: ZoomPageTransitionsBuilder(),
-      // FadeUpwardsPageTransitionsBuilder - OpenUpwardsPageTransitionsBuilder - ZoomPageTransitionsBuilder - CupertinoPageTransitionsBuilder
-    },
+//   textTheme: GoogleFonts.emilysCandyTextTheme(),
+  textTheme: TextTheme(
+    headline1: TextStyle(fontSize: BodyTextSize),
+    headline2: TextStyle(fontSize: BodyTextSize),
+    headline3: TextStyle(fontSize: BodyTextSize),
+    headline4: TextStyle(fontSize: BodyTextSize),
+    headline5: TextStyle(fontSize: BodyTextSize),
+    headline6: TextStyle(fontSize: BodyTextSize),
+    subtitle1: TextStyle(fontSize: BodyTextSize),
+    subtitle2: TextStyle(fontSize: BodyTextSize),
+    bodyText1: TextStyle(fontSize: BodyTextSize),
+    bodyText2: TextStyle(fontSize: BodyTextSize),
   ),
-//   appBarTheme: AppBarTheme(
-//     color: Colors.amber,
-//     elevation: 0,
-//     titleTextStyle: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-//     toolbarTextStyle:
-//         TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
-//     toolbarHeight: 40.0,
-//   ),
+  listTileTheme: ListTileThemeData(style: ListTileStyle.drawer),
   scrollbarTheme: ScrollbarThemeData(
     isAlwaysShown: true,
     thickness: MaterialStateProperty.all(10.0),

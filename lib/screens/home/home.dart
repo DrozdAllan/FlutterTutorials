@@ -218,6 +218,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Navigator.pushNamed(context, '/animations');
             },
           ),
+          ListTile(
+            title: Text('Google Maps'),
+            onTap: () {
+              Navigator.pushNamed(context, '/maps');
+            },
+          ),
           IconButton(
             icon: AnimatedIcon(
                 icon: AnimatedIcons.arrow_menu, progress: _animationController),

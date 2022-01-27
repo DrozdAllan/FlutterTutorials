@@ -4,7 +4,6 @@ import 'package:english_words/english_words.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
@@ -24,6 +23,7 @@ import 'package:mynewapp/screens/hive/duckDetails.dart';
 import 'package:mynewapp/screens/hive/hive.dart';
 import 'package:mynewapp/screens/home/home.dart';
 import 'package:mynewapp/screens/location/geolocator.dart';
+import 'package:mynewapp/screens/maps/maps.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
 import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
@@ -71,10 +71,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      //   theme: myTheme,
-      theme: FlexColorScheme.light(scheme: FlexScheme.mango).toTheme,
-      //   darkTheme: myDarkTheme,
-      darkTheme: FlexColorScheme.dark(scheme: FlexScheme.sakura).toTheme,
+      theme: myTheme,
+      //   theme: FlexColorScheme.light(scheme: FlexScheme.mango).toTheme,
+      darkTheme: myDarkTheme,
+      //   darkTheme: FlexColorScheme.dark(scheme: FlexScheme.sakura).toTheme,
       themeMode: EasyDynamicTheme.of(context).themeMode,
       onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
       initialRoute: Home.routeName,
@@ -158,6 +158,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => MoviesTitle());
       case Animations.routeName: // '/animations'
         return MaterialPageRoute(builder: (context) => Animations());
+      case Maps.routeName: // '/maps'
+        return MaterialPageRoute(builder: (context) => Maps());
       case MoviesTitleResult.routeName:
         return MaterialPageRoute(
             builder: (context) =>
