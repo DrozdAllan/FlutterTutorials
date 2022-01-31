@@ -8,7 +8,7 @@ class TabDemo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool _throwShotAway = false;
+    // bool _throwShotAway = false;
 
     return MaterialApp(
       home: DefaultTabController(
