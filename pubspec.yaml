@@ -67,6 +67,8 @@ dependencies:
   intl: ^0.17.0
   flutter_form_builder: ^6.1.0+1
   geolocator: "7.6.2"
+  google_maps_flutter: ^2.1.1
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

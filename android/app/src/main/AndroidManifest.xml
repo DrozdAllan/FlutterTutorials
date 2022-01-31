@@ -8,6 +8,8 @@
    <application
         android:label="FlutterTutorial"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyD3476E8BG6-hU8MEBhKNG45g-pinR_caA" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

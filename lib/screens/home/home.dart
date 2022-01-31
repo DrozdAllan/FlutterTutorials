@@ -224,6 +224,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Navigator.pushNamed(context, '/maps');
             },
           ),
+          ListTile(
+            title: Text('Overpowered Sfx'),
+            onTap: () {
+              Navigator.pushNamed(context, '/sfx');
+            },
+          ),
           IconButton(
             icon: AnimatedIcon(
                 icon: AnimatedIcons.arrow_menu, progress: _animationController),

@@ -8,9 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mynewapp/database/duckBox.dart';
 import 'package:mynewapp/screens/Animations/Animations.dart';
+import 'package:mynewapp/screens/bubble/bubble.dart';
 import 'package:mynewapp/screens/cameraDemo/cameraDemo.dart';
-import 'package:mynewapp/screens/cameraDemo/emotionDetector.dart';
-import 'package:mynewapp/screens/cameraDemo/stuffDetector.dart';
+// import 'package:mynewapp/screens/cameraDemo/emotionDetector.dart';
+// import 'package:mynewapp/screens/cameraDemo/stuffDetector.dart';
 import 'package:mynewapp/screens/colorPicker/colorPicker.dart';
 import 'package:mynewapp/screens/drawerDemo/drawerDemo.dart';
 import 'package:mynewapp/screens/favorites/favorites.dart';
@@ -26,6 +27,7 @@ import 'package:mynewapp/screens/location/geolocator.dart';
 import 'package:mynewapp/screens/maps/maps.dart';
 import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
+import 'package:mynewapp/screens/sfx/sfx.dart';
 import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
 import 'package:mynewapp/screens/slidableDemo/slidableDemo.dart';
 import 'package:mynewapp/screens/tabDemo/tabDemo.dart';
@@ -160,6 +162,10 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Animations());
       case Maps.routeName: // '/maps'
         return MaterialPageRoute(builder: (context) => Maps());
+      case Sfx.routeName: // '/sfx'
+        return MaterialPageRoute(builder: (context) => Sfx());
+      case Bubble.routeName: // '/bubble'
+        return MaterialPageRoute(builder: (context) => Bubble());
       case MoviesTitleResult.routeName:
         return MaterialPageRoute(
             builder: (context) =>
