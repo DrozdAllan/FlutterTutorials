@@ -230,6 +230,12 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               Navigator.pushNamed(context, '/sfx');
             },
           ),
+          ListTile(
+            title: Text('Sinewave training'),
+            onTap: () {
+              Navigator.pushNamed(context, '/sinewave');
+            },
+          ),
           IconButton(
             icon: AnimatedIcon(
                 icon: AnimatedIcons.arrow_menu, progress: _animationController),

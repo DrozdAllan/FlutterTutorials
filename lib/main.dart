@@ -29,6 +29,7 @@ import 'package:mynewapp/screens/pairWords/pairWords.dart';
 import 'package:mynewapp/screens/riverpod/riverpod.dart';
 import 'package:mynewapp/screens/sfx/sfx.dart';
 import 'package:mynewapp/screens/sharedPreferencesDemo/sharedPreferencesDemo.dart';
+import 'package:mynewapp/screens/sinewave/sinewave.dart';
 import 'package:mynewapp/screens/slidableDemo/slidableDemo.dart';
 import 'package:mynewapp/screens/tabDemo/tabDemo.dart';
 import 'package:mynewapp/screens/userApiTest/userApiTest.dart';
@@ -166,6 +167,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Sfx());
       case Bubble.routeName: // '/bubble'
         return MaterialPageRoute(builder: (context) => Bubble());
+      case Sinewave.routeName: // '/sinewave'
+        return MaterialPageRoute(builder: (context) => Sinewave());
       case MoviesTitleResult.routeName:
         return MaterialPageRoute(
             builder: (context) =>
